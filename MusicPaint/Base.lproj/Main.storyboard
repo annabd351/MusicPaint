@@ -1,25 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4LC-vm-HAt">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Particle Sim View Controller-->
+        <scene sceneID="lBI-uz-cn5">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4LC-vm-HAt" customClass="ParticleSimViewController" customModule="MusicPaint" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="Ubc-up-Usn"/>
+                        <viewControllerLayoutGuide type="bottom" id="IvF-JL-NDA"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="P3O-Jf-LNl" customClass="SpriteRenderingView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTb-dQ-oYo" userLabel="Spotify">
+                                <rect key="frame" x="503" y="32" width="49" height="30"/>
+                                <state key="normal" title="Spotify"/>
+                                <connections>
+                                    <action selector="spotifyButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="Mqi-be-aFm"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="OTb-dQ-oYo" firstAttribute="top" secondItem="P3O-Jf-LNl" secondAttribute="topMargin" constant="32" id="eUG-lI-C21"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="OTb-dQ-oYo" secondAttribute="trailing" constant="32" id="pby-U4-ufq"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Cdn-8G-rwu" appends="YES" id="4bH-l0-yXL"/>
+                            <outletCollection property="gestureRecognizers" destination="jR5-NE-j6P" appends="YES" id="Igl-vx-0qE"/>
+                        </connections>
                     </view>
+                    <connections>
+                        <outlet property="spotifyButton" destination="OTb-dQ-oYo" id="0Nh-XP-9Aa"/>
+                        <outlet property="spriteRenderingView" destination="P3O-Jf-LNl" id="JRy-6C-GlF"/>
+                        <outlet property="tapGestureRecognizer" destination="Cdn-8G-rwu" id="ZCV-Qw-FlU"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GuL-Xt-G1M" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Cdn-8G-rwu"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="jR5-NE-j6P">
+                    <connections>
+                        <action selector="handleLongPress:" destination="4LC-vm-HAt" id="9QX-qi-j7y"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="392" y="-218"/>
         </scene>
     </scenes>
 </document>
