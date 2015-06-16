@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		83AE88FF1B2D0E3100B76DBE /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83AE88FE1B2D0E3100B76DBE /* Spotify.framework */; };
-		83AE89001B2D0E3100B76DBE /* Spotify.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 83AE88FE1B2D0E3100B76DBE /* Spotify.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		836DA2D21B306A1A009D9828 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 836DA2D11B306A1A009D9828 /* Spotify.framework */; };
 		83AE89051B2D0F4F00B76DBE /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AE89041B2D0F4F00B76DBE /* Geometry.swift */; };
 		83AE89071B2D0F6D00B76DBE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83AE89061B2D0F6D00B76DBE /* AVFoundation.framework */; };
 		83AE89091B2D0F8000B76DBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83AE89081B2D0F8000B76DBE /* SystemConfiguration.framework */; };
@@ -55,7 +54,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				83AE89001B2D0E3100B76DBE /* Spotify.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,7 +61,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		83AE88FE1B2D0E3100B76DBE /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = Spotify/Spotify.framework; sourceTree = "<group>"; };
+		836DA2D11B306A1A009D9828 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = Spotify/Spotify.framework; sourceTree = "<group>"; };
 		83AE89041B2D0F4F00B76DBE /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		83AE89061B2D0F6D00B76DBE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		83AE89081B2D0F8000B76DBE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -111,8 +109,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				83AE89091B2D0F8000B76DBE /* SystemConfiguration.framework in Frameworks */,
+				836DA2D21B306A1A009D9828 /* Spotify.framework in Frameworks */,
 				83AE89071B2D0F6D00B76DBE /* AVFoundation.framework in Frameworks */,
-				83AE88FF1B2D0E3100B76DBE /* Spotify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,9 +127,9 @@
 		83F2B8551B2D0B9100610216 = {
 			isa = PBXGroup;
 			children = (
+				836DA2D11B306A1A009D9828 /* Spotify.framework */,
 				83AE89081B2D0F8000B76DBE /* SystemConfiguration.framework */,
 				83AE89061B2D0F6D00B76DBE /* AVFoundation.framework */,
-				83AE88FE1B2D0E3100B76DBE /* Spotify.framework */,
 				83F2B8601B2D0B9100610216 /* MusicPaint */,
 				83F2B8761B2D0B9100610216 /* MusicPaintTests */,
 				83F2B85F1B2D0B9100610216 /* Products */,
@@ -262,6 +260,7 @@
 				TargetAttributes = {
 					83F2B85D1B2D0B9100610216 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = YQ27GR84SD;
 					};
 					83F2B8721B2D0B9100610216 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -414,6 +413,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -452,6 +452,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -463,9 +464,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Spotify",
+					"$(PROJECT_DIR)",
+					/Users/annabd/Development/XXX/Spotify,
 				);
 				INFOPLIST_FILE = MusicPaint/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -480,9 +484,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Spotify",
+					"$(PROJECT_DIR)",
+					/Users/annabd/Development/XXX/Spotify,
 				);
 				INFOPLIST_FILE = MusicPaint/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

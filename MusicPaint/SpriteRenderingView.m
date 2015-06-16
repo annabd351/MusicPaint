@@ -101,6 +101,8 @@
 }
 
 - (void)setParticleTextureImage:(UIImage *)particleTextureImage {
+    [SpriteRenderingView checkGLError];
+    
     if (_particleTexture) {
         [self deleteTexture:_particleTexture];
     }
@@ -258,6 +260,42 @@
             sprite->color = GLKVector4Make(x/upperX, y/upperY, 0.0f, 1.0f);
         }
     }
+}
+
+// For debugging
++ (void)checkGLError {
+    glFlush();
+    
+    GLenum error = glGetError();
+    NSString *type;
+    
+    switch (error) {
+        case GL_NO_ERROR:
+            type = @"GL_NO_ERROR";
+            break;
+            
+        case GL_INVALID_ENUM:
+            type = @"GL_INVALID_ENUM";
+            break;
+            
+        case GL_INVALID_VALUE:
+            type = @"GL_INVALID_VALUE";
+            break;
+            
+        case GL_INVALID_OPERATION:
+            type = @"GL_INVALID_OPERATION";
+            break;
+            
+        case GL_OUT_OF_MEMORY:
+            type =  @"GL_OUT_OF_MEMORY";
+            break;
+            
+        default:
+            type =  @"<<unknown GL error>>";
+            break;
+    }
+    
+    NSAssert(error == GL_NO_ERROR, @"GL Error: %@", type);
 }
 
 @end
