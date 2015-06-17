@@ -253,6 +253,8 @@ static NSUInteger const fftMagnitudeExponent = 9;
 - (void)resetSpectrumData {
     // Clear out stale spectrum data
     _spectrumData.maxMagnitude = 0.0f;
+    memset(_spectrumData.left, 0, BufferSamples * sizeof(Float32));
+    memset(_spectrumData.right, 0, BufferSamples * sizeof(Float32));
 }
 
 @end

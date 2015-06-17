@@ -111,10 +111,9 @@ extension ParticleSimViewController: GLKViewControllerDelegate {
     }
     
     // TODO: Snapshot and reload view (the backing store gets cleared)
-    func glkViewController(controller: GLKViewController!, willPause pause: Bool) {
-        spriteRenderingView.snapshot
-        
-    }
+//    func glkViewController(controller: GLKViewController!, willPause pause: Bool) {
+//        spriteRenderingView.snapshot
+//    }
 }
 
 extension ParticleSimViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

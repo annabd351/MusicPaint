@@ -84,7 +84,10 @@ class SpotifyManager: NSObject {
         let tracks = playlistSnapshot!.firstTrackPage.items
         var playOptions = SPTPlayOptions()
         playOptions.trackIndex = Int32((random() + Int(CACurrentMediaTime())) % tracks.count)
-        
+
+        coreAudioController.clearAudioBuffers()
+        coreAudioController.resetSpectrumData()
+
         player!.playURIs(tracks, withOptions: playOptions) {
             (error: NSError?) in
             

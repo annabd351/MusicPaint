@@ -255,7 +255,7 @@
             sprite->position = GLKVector2Make(x, y);
             sprite->age = 0.0f;
             sprite->lifespan = 1.0f;
-            sprite->scale = 20.0;
+            sprite->scale = 20.0f;
 
             sprite->color = GLKVector4Make(x/upperX, y/upperY, 0.0f, 1.0f);
         }

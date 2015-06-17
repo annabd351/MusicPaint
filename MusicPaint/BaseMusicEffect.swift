@@ -23,7 +23,7 @@ class BaseMusicEffect<S: SimulationStateType>: SimulationEntity<AnySimulationSta
             spriteBuffer: spriteRenderingView.spriteBuffer
         )
 
-        let emitter: PulsinglAreaEmitter<EmitterState>
+        let emitter: PulsingAreaEmitter<EmitterState>
         let particleGenerator: Emitter.ParticleGeneratorFunction = {
             (sprite, position) in
 
@@ -32,13 +32,13 @@ class BaseMusicEffect<S: SimulationStateType>: SimulationEntity<AnySimulationSta
             initialParticleState.position = position
             initialParticleState.velocity = VectorZero.randomizedValueByOffset(-1.0)
             initialParticleState.scale = Scalar(20.0)
-            initialParticleState.lifespan = 0.01
+            initialParticleState.lifespan = 1.0
             initialParticleState.color = UIColor.whiteColor().simColor
 
             return Particle(initialState: initialParticleState, currentTime: GlobalSimTime)
         }
         
-        var newEmitter = PulsinglAreaEmitter<EmitterState>(initialState: initialEmitterState, particleGenerator: particleGenerator, currentTime: GlobalSimTime, area: Rectangle(cgRect: rect))
+        var newEmitter = PulsingAreaEmitter<EmitterState>(initialState: initialEmitterState, particleGenerator: particleGenerator, currentTime: GlobalSimTime, area: Rectangle(cgRect: rect))
 
         newEmitter.addCreatedEntityUpdateFunction(fade)
         
@@ -55,7 +55,7 @@ class BaseMusicEffect<S: SimulationStateType>: SimulationEntity<AnySimulationSta
     }
 }
 
-private class PulsinglAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> {
+private class PulsingAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> {
     // Emit particles continuously
     override func isAliveAtTime(currentTime: Time) -> Bool {
         return true

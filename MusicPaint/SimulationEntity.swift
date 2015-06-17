@@ -28,7 +28,7 @@ protocol SimulationEntityType {
 protocol SimulationStateType {
     var position: Position { get set }
     var scale: Scalar { get set }
-    var lifespan: Scalar { get set }
+    var lifespan: Time { get set }
     var velocity: Vector { get set }
 }
 
@@ -87,7 +87,13 @@ class SimulationEntity<S: SimulationStateType, E: SimulationEntityType>: Simulat
 }
 
 // System time
-var GlobalSimTime: Time { return Float(CACurrentMediaTime()) }
+
+// Truncate times to this window -- we have limited precision
+let GlobalTimePrecision = 60.0 * 2
+
+var GlobalSimTime: Time {
+    return Time(CACurrentMediaTime() % GlobalTimePrecision)
+}
 
 
 // Dummy classes for use in resolving generics
@@ -95,7 +101,7 @@ var GlobalSimTime: Time { return Float(CACurrentMediaTime()) }
 struct AnySimulationState: SimulationStateType {
     var position: Position = VectorZero
     var scale: Scalar = 0
-    var lifespan: Scalar = 0
+    var lifespan: Time = 0
     var velocity: Vector = VectorZero
 }
 
