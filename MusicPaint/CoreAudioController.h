@@ -15,12 +15,14 @@ typedef struct _SpectrumData {
     Float32 left[BufferSamples];
     Float32 right[BufferSamples];
     Float32 maxMagnitude;
+    Float32 maxFrequency;
     NSTimeInterval timestamp;
     
     // For Swift bridging (to prevent copies by value)
     Float32 *leftPtr;
     Float32 *rightPtr;
     Float32 *maxMagnitudePtr;
+    Float32 *maxFrequencyPtr;
     NSTimeInterval *timestampPtr;
 } SpectrumData;
 

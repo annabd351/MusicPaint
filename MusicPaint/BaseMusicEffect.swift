@@ -11,7 +11,14 @@ import UIKit
 class BaseMusicEffect<S: SimulationStateType>: SimulationEntity<AnySimulationState, Emitter<EmitterState>> {
  
     var spriteRenderingView: SpriteRenderingView!
+
+    var baseForceFrequency: Scalar = 60.0
+    var baseForceMagnitudeScale: Scalar = 5.0
     
+    var spectrumDrivenForceMagnitudeScale: Scalar = 0.01
+    
+    var maxParticleEmissionRate:Scalar = 2000.0
+
     func fillRect(rect: CGRect) {
        
         let initialEmitterState = EmitterState(
@@ -31,8 +38,8 @@ class BaseMusicEffect<S: SimulationStateType>: SimulationEntity<AnySimulationSta
 
             initialParticleState.position = position
             initialParticleState.velocity = VectorZero.randomizedValueByOffset(-1.0)
-            initialParticleState.scale = Scalar(20.0)
-            initialParticleState.lifespan = 1.0
+            initialParticleState.scale = Scalar(20.0).randomizedValueByProportion(1.0)
+            initialParticleState.lifespan = Scalar(2.0).randomizedValueByProportion(0.5)
             initialParticleState.color = UIColor.whiteColor().simColor
 
             return Particle(initialState: initialParticleState, currentTime: GlobalSimTime)
@@ -41,6 +48,7 @@ class BaseMusicEffect<S: SimulationStateType>: SimulationEntity<AnySimulationSta
         var newEmitter = PulsingAreaEmitter<EmitterState>(initialState: initialEmitterState, particleGenerator: particleGenerator, currentTime: GlobalSimTime, area: Rectangle(cgRect: rect))
 
         newEmitter.addCreatedEntityUpdateFunction(fade)
+        newEmitter.addCreatedEntityUpdateFunction(applySinusoidalForce)
         
         createdEntities += [newEmitter]
         
@@ -94,21 +102,24 @@ extension BaseMusicEffect {
         particle.currentState.color = newColor
         
     }
-    
-    func applySpectrum(particle: Particle<ParticleState>, currentTime: Time, timestep: Time) -> () {
-        if let currentSpectrumArrays = spectrumArrays where currentSpectrumArrays.maxMagnitude > 0 {
-            let frequency: Scalar
+
+    func applySinusoidalForce(particle: Particle<ParticleState>, currentTime: Time, timestep: Time) -> () {
+        if let currentSpectrumArrays = spectrumArrays {
+            let perParticleFrequency: Scalar
             if particle.initialState.ID % 2 == 0 {
-                frequency = currentSpectrumArrays.left[particle.initialState.ID % currentSpectrumArrays.left.count]
+                perParticleFrequency = currentSpectrumArrays.left[particle.initialState.ID % currentSpectrumArrays.left.count]
             }
             else {
-                frequency = currentSpectrumArrays.right[particle.initialState.ID % currentSpectrumArrays.right.count]
+                perParticleFrequency = currentSpectrumArrays.right[particle.initialState.ID % currentSpectrumArrays.right.count]
             }
             
-            let normalizedFrequency = frequency/Scalar(currentSpectrumArrays.maxMagnitude)
-            if normalizedFrequency > 0.5 {
-                particle.currentState.scale = particle.initialState.scale * (1.0 + normalizedFrequency)
-            }
+            let forceVector = Vector.new(sin(currentTime * perParticleFrequency), cos(currentTime * perParticleFrequency))
+            particle.currentState.velocity = particle.currentState.velocity + forceVector * currentSpectrumArrays.maxMagnitude * spectrumDrivenForceMagnitudeScale
+        }
+        else {
+            let perParticleFrequency = baseForceFrequency + Scalar(particle.initialState.ID) % baseForceFrequency
+            let forceVector = Vector.new(sin(currentTime * perParticleFrequency ), cos(currentTime * perParticleFrequency))
+            particle.currentState.velocity = particle.currentState.velocity + forceVector * baseForceMagnitudeScale
         }
     }
     
@@ -116,7 +127,7 @@ extension BaseMusicEffect {
         if let currentSpectrumArrays = spectrumArrays {
             let delay = CACurrentMediaTime() - currentSpectrumArrays.timestamp
             let newRate = Scalar(currentSpectrumArrays.maxMagnitude)
-            emitter.currentState.rate = newRate
+            emitter.currentState.rate = min(newRate, maxParticleEmissionRate)
         }
     }
 }

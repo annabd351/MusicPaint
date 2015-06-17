@@ -15,8 +15,10 @@ struct SpectrumArrays {
     var left: UnsafeMutableBufferPointer<Float32>
     var right: UnsafeMutableBufferPointer<Float32>
     var maxMagnitudePtr: UnsafeMutablePointer<Float32>
+    var maxFrequencyPtr: UnsafeMutablePointer<Float32>
     var timestampPtr: UnsafeMutablePointer<NSTimeInterval>
     
+    var maxFrequency: Float32 { return maxFrequencyPtr.memory }
     var maxMagnitude: Float32 { return maxMagnitudePtr.memory }
     var timestamp: NSTimeInterval { return timestampPtr.memory }
 }
@@ -40,7 +42,7 @@ class SpotifyManager: NSObject {
         let leftSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.leftPtr, count: coreAudioController.spectrumData.samples)
         let rightSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.rightPtr, count: coreAudioController.spectrumData.samples)
         
-        _spectrumArrays = SpectrumArrays(left: leftSpectrumArray, right: rightSpectrumArray, maxMagnitudePtr: coreAudioController.spectrumData.maxMagnitudePtr, timestampPtr: coreAudioController.spectrumData.timestampPtr)
+        _spectrumArrays = SpectrumArrays(left: leftSpectrumArray, right: rightSpectrumArray, maxMagnitudePtr: coreAudioController.spectrumData.maxMagnitudePtr, maxFrequencyPtr: coreAudioController.spectrumData.maxFrequencyPtr, timestampPtr: coreAudioController.spectrumData.timestampPtr)
     }
 
     enum PlayerState {

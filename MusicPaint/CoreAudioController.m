@@ -67,9 +67,9 @@ static OSStatus EQRenderCallback(void *inRefCon,
     AudioUnit eqUnit;
     
     double *_leftInputRealBuffer;
-    double *_leftInputImagBuffer;
+    double *_leftInputImageBuffer;
     double *_rightInputRealBuffer;
-    double *_rightInputImagBuffer;
+    double *_rightInputImageBuffer;
     vDSP_Length _fftSetupForSampleCount;
     FFTSetupD _fft_weights;
 }
@@ -87,6 +87,7 @@ static NSUInteger const fftMagnitudeExponent = 9;
         _spectrumData.leftPtr = _spectrumData.left;
         _spectrumData.rightPtr = _spectrumData.right;
         _spectrumData.maxMagnitudePtr = &_spectrumData.maxMagnitude;
+        _spectrumData.maxFrequencyPtr = &_spectrumData.maxFrequency;
         _spectrumData.timestampPtr = &_spectrumData.timestamp;
     }
     return self;
@@ -104,14 +105,27 @@ static NSUInteger const fftMagnitudeExponent = 9;
                                    leftResult:_spectrumData.left
                                   rightResult:_spectrumData.right];
     
+    Float32 leftAbs, rightAbs;
     Float32 maxMagnitude = 0.0f;
+    int highestSampleIndex = 0;
+    
     for (int i = 0; i < _spectrumData.samples; i++) {
-        maxMagnitude = MAX(maxMagnitude, fabs(_spectrumData.left[i]));
-        maxMagnitude = MAX(maxMagnitude, fabs(_spectrumData.right[i]));
+        leftAbs = fabs(_spectrumData.left[i]);
+        rightAbs = fabs(_spectrumData.right[i]);
+        
+        maxMagnitude = MAX(maxMagnitude, leftAbs);
+        maxMagnitude = MAX(maxMagnitude, rightAbs);
+
+        if (leftAbs > 1000.0f || rightAbs > 1000.0f) {
+            highestSampleIndex = i;
+        }
     }
 
     _spectrumData.maxMagnitude = maxMagnitude;
     _spectrumData.timestamp = CACurrentMediaTime();
+
+    // TODO: Not sure of the units, here...
+    _spectrumData.maxFrequency = (Float32)highestSampleIndex;
 }
 
 -(void)performEightBitFFTWithWaveformsLeft:(Float32 *)leftFrames
@@ -127,27 +141,27 @@ static NSUInteger const fftMagnitudeExponent = 9;
         /* Allocate memory to store split-complex input and output data */
         
         if (_leftInputRealBuffer != NULL) free(_leftInputRealBuffer);
-        if (_leftInputImagBuffer != NULL) free(_leftInputImagBuffer);
+        if (_leftInputImageBuffer != NULL) free(_leftInputImageBuffer);
         
         _leftInputRealBuffer = (double *)malloc(frameCount * sizeof(double));
-        _leftInputImagBuffer = (double *)malloc(frameCount * sizeof(double));
+        _leftInputImageBuffer = (double *)malloc(frameCount * sizeof(double));
         
         if (_rightInputRealBuffer != NULL) free(_rightInputRealBuffer);
-        if (_rightInputImagBuffer != NULL) free(_rightInputImagBuffer);
+        if (_rightInputImageBuffer != NULL) free(_rightInputImageBuffer);
         
         _rightInputRealBuffer = (double *)malloc(frameCount * sizeof(double));
-        _rightInputImagBuffer = (double *)malloc(frameCount * sizeof(double));
+        _rightInputImageBuffer = (double *)malloc(frameCount * sizeof(double));
         
         _fftSetupForSampleCount = frameCount;
     }
     
     memset(_leftInputRealBuffer, 0, frameCount * sizeof(double));
     memset(_rightInputRealBuffer, 0, frameCount * sizeof(double));
-    memset(_leftInputImagBuffer, 0, frameCount * sizeof(double));
-    memset(_rightInputImagBuffer, 0, frameCount * sizeof(double));
+    memset(_leftInputImageBuffer, 0, frameCount * sizeof(double));
+    memset(_rightInputImageBuffer, 0, frameCount * sizeof(double));
     
-    DSPDoubleSplitComplex leftInput = {_leftInputRealBuffer, _leftInputImagBuffer};
-    DSPDoubleSplitComplex rightInput = {_rightInputRealBuffer, _rightInputImagBuffer};
+    DSPDoubleSplitComplex leftInput = {_leftInputRealBuffer, _leftInputImageBuffer};
+    DSPDoubleSplitComplex rightInput = {_rightInputRealBuffer, _rightInputImageBuffer};
     
     // Left
     for (int i = 0; i < frameCount; i++) {
@@ -253,6 +267,7 @@ static NSUInteger const fftMagnitudeExponent = 9;
 - (void)resetSpectrumData {
     // Clear out stale spectrum data
     _spectrumData.maxMagnitude = 0.0f;
+    _spectrumData.maxFrequency = 0.0f;
     memset(_spectrumData.left, 0, BufferSamples * sizeof(Float32));
     memset(_spectrumData.right, 0, BufferSamples * sizeof(Float32));
 }
