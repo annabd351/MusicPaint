@@ -146,8 +146,6 @@ extension ParticleSimViewController: SPTAudioStreamingPlaybackDelegate {
             spotifyButton.setTitle("Stop", forState: UIControlState.Normal)
         }
         else {
-            effect = nil
-            
             spotifyButton.setTitle("Play", forState: UIControlState.Normal)
         }
     }

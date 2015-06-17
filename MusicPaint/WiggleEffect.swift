@@ -23,7 +23,6 @@ class WiggleEffect<S: SimulationStateType>:  SimulationEntity<AnySimulationState
             
             rate: 1.0,
             
-            particleTexture: particleTexture,
             spriteBuffer: spriteRenderingView.spriteBuffer
         )
         

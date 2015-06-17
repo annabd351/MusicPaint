@@ -176,14 +176,14 @@
 			name = Effects;
 			sourceTree = "<group>";
 		};
-		83BA58531B31084D00AAA26B /* Spotify */ = {
+		83BA58531B31084D00AAA26B /* Audio */ = {
 			isa = PBXGroup;
 			children = (
 				83F2B8841B2D0C2400610216 /* SpotifyManager.swift */,
 				83F2B8851B2D0C2400610216 /* CoreAudioController.h */,
 				83F2B8861B2D0C2400610216 /* CoreAudioController.m */,
 			);
-			name = Spotify;
+			name = Audio;
 			sourceTree = "<group>";
 		};
 		83F2B8551B2D0B9100610216 = {
@@ -211,7 +211,7 @@
 				83BA58501B31082500AAA26B /* Rendering */,
 				83BA58511B31083300AAA26B /* Simulation */,
 				83BA58521B31083F00AAA26B /* Effects */,
-				83BA58531B31084D00AAA26B /* Spotify */,
+				83BA58531B31084D00AAA26B /* Audio */,
 				83F2B8AF1B2D0C6000610216 /* DebugMacro.h */,
 				83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */,
 				83F2B8631B2D0B9100610216 /* AppDelegate.swift */,

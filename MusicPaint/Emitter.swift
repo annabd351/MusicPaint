@@ -13,28 +13,30 @@ class Emitter<T: SimulationStateType>: SimulationEntity<EmitterState, Particle<P
     // Particle creation
     typealias ParticleGeneratorFunction = (UnsafeMutablePointer<Sprite>, Position) -> Particle<ParticleState>
     let particleGenerator: ParticleGeneratorFunction
-
+    
     override func update(currentTime: Time, timestep: Time) {
+        // Update existing particles
         super.update(currentTime, timestep: timestep)
-
-        // Stop emitting new particles if this emitter is past its lifespan
-        if self.isAliveAtTime(currentTime) {
-            
-//            let neededParticles = Int(max(self.currentState.rate * timestep, 1.0))
-            let neededParticles = Int(self.currentState.rate * timestep)
-            
-            var newParticles: [Particle<ParticleState>] = []
-            newParticles.reserveCapacity(neededParticles)
-            for index in 0..<neededParticles {
-                let newSprite = initialState.spriteBuffer.newSprite()
-                let newParticle = particleGenerator(newSprite, currentState.position)
-                newParticles.append(newParticle)
-            }
-            
-            // Merge results
-            createdEntities += newParticles
-        }
         
+        // Emit new particles
+        if self.isAliveAtTime(currentTime) {
+            createdEntities += emitParticles(neededParticles(currentTime, timestep: timestep))
+        }
+    }
+    
+    func emitParticles(count: Int) -> [Particle<ParticleState>] {
+        var newParticles: [Particle<ParticleState>] = []
+        newParticles.reserveCapacity(count)
+        for index in 0..<count {
+            let newSprite = initialState.spriteBuffer.newSprite()
+            let newParticle = particleGenerator(newSprite, currentState.position)
+            newParticles.append(newParticle)
+        }
+        return newParticles
+    }
+    
+    func neededParticles(currentTime: Time, timestep: Time) -> Int {
+        return Int(self.currentState.rate * timestep)
     }
     
     override func isAliveAtTime(currentTime: Time) -> Bool {
@@ -61,11 +63,7 @@ struct EmitterState: SimulationStateType {
     // Rate at which new particles are created
     var rate: Scalar
 
-    // All particles will be rendered with this texture
-    let particleTexture: UIImage
-    
-    // Associated renderable sprites
+    // Sprites used to render particles
     let spriteBuffer: SpriteBuffer
-    
 }
 

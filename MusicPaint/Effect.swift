@@ -21,7 +21,6 @@ class Effect<S: SimulationStateType>: SimulationEntity<AnySimulationState, Emitt
             
             rate: 10.0,
             
-            particleTexture: particleTexture,
             spriteBuffer: spriteRenderingView.spriteBuffer
         )
 

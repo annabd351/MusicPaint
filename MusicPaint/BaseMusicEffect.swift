@@ -11,53 +11,35 @@ import UIKit
 class BaseMusicEffect<S: SimulationStateType>: SimulationEntity<AnySimulationState, Emitter<EmitterState>> {
  
     var spriteRenderingView: SpriteRenderingView!
-    let particleTexture: UIImage
-
+    
     func fillRect(rect: CGRect) {
-        println(__FUNCTION__, "rect: \(rect)")
+       
         let initialEmitterState = EmitterState(
             position: Position.new(rect.origin),
             scale: 0.0,
             lifespan: 0.0,
             velocity: VectorZero,
-            
             rate: 0.0,
-            
-            particleTexture: particleTexture,
             spriteBuffer: spriteRenderingView.spriteBuffer
         )
 
-        var offset = (x: Scalar(0), y: Scalar(0))
-
+        let emitter: PulsinglAreaEmitter<EmitterState>
         let particleGenerator: Emitter.ParticleGeneratorFunction = {
             (sprite, position) in
-            
-//            offset.x = offset.x + 5.0
-//            if offset.x > Scalar(rect.width) {
-//                offset.x = offset.x % Scalar(rect.width)
-//                offset.y = offset.y + 5.0
-//                if offset.y > Scalar(rect.height) {
-//                    offset.y = offset.y % Scalar(rect.height)
-//                }
-//            }
 
             var initialParticleState = ParticleState(sprite: sprite)
-            
-            let x = randomRange(Scalar(rect.origin.x), Scalar(rect.width))
-            let y = randomRange(Scalar(rect.origin.y), Scalar(rect.height))
 
-            initialParticleState.position = Position.new(x, y)
+            initialParticleState.position = position
             initialParticleState.velocity = VectorZero.randomizedValueByOffset(-1.0)
             initialParticleState.scale = Scalar(20.0)
-            initialParticleState.lifespan = Scalar(0.5).randomizedValueByProportion(0.5)
+            initialParticleState.lifespan = 0.01
             initialParticleState.color = UIColor.whiteColor().simColor
 
             return Particle(initialState: initialParticleState, currentTime: GlobalSimTime)
         }
         
-        var newEmitter = EternalEmitter<EmitterState>(initialState: initialEmitterState, particleGenerator: particleGenerator, currentTime: GlobalSimTime)
+        var newEmitter = PulsinglAreaEmitter<EmitterState>(initialState: initialEmitterState, particleGenerator: particleGenerator, currentTime: GlobalSimTime, area: Rectangle(cgRect: rect))
 
- //       newEmitter.addCreatedEntityUpdateFunction(applySpectrum)
         newEmitter.addCreatedEntityUpdateFunction(fade)
         
         createdEntities += [newEmitter]
@@ -68,19 +50,35 @@ class BaseMusicEffect<S: SimulationStateType>: SimulationEntity<AnySimulationSta
     var spectrumArrays: SpectrumArrays?
     
     init(spriteRenderingView: SpriteRenderingView) {
-        particleTexture = UIImage(named: "ParticleTexture")!
-        
         super.init(initialState: AnySimulationState(), currentTime: GlobalSimTime)
         self.spriteRenderingView = spriteRenderingView
     }
 }
 
-private class EternalEmitter<S: SimulationStateType>: Emitter<EmitterState> {
+private class PulsinglAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> {
+    // Emit particles continuously
     override func isAliveAtTime(currentTime: Time) -> Bool {
         return true
     }
+
+    // Emit to random position with this rectangle
+    let area: Rectangle
     
-    override init(initialState: EmitterState, particleGenerator: ParticleGeneratorFunction, currentTime: Time) {
+    override func emitParticles(count: Int) -> [Particle<ParticleState>] {
+        var newParticles: [Particle<ParticleState>] = []
+        newParticles.reserveCapacity(count)
+        for index in 0..<count {
+            let newSprite = initialState.spriteBuffer.newSprite()
+            let x = randomRange(area.origin.x, area.origin.x + area.width)
+            let y = randomRange(area.origin.y, area.origin.y + area.height)
+            let newParticle = particleGenerator(newSprite, Position.new(x, y))
+            newParticles.append(newParticle)
+        }
+        return newParticles
+    }
+    
+    init(initialState: EmitterState, particleGenerator: ParticleGeneratorFunction, currentTime: Time, area: Rectangle) {
+        self.area = area
         super.init(initialState: initialState, particleGenerator: particleGenerator, currentTime: currentTime)
     }
 }
@@ -116,8 +114,7 @@ extension BaseMusicEffect {
     
     func varyEmissionRate(emitter: Emitter<EmitterState>, currentTime: Time, timestep: Time) -> () {
         if let currentSpectrumArrays = spectrumArrays {
-//            let delay = currentTime - currentSpectrumArrays.timestamp
-//            println("Delay: \(delay)")
+            let delay = CACurrentMediaTime() - currentSpectrumArrays.timestamp
             let newRate = Scalar(currentSpectrumArrays.maxMagnitude)
             emitter.currentState.rate = newRate
         }

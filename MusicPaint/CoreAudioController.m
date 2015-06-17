@@ -250,5 +250,9 @@ static NSUInteger const fftMagnitudeExponent = 9;
     eqNode = 0;
 }
 
+- (void)resetSpectrumData {
+    // Clear out stale spectrum data
+    _spectrumData.maxMagnitude = 0.0f;
+}
 
 @end

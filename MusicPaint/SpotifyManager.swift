@@ -18,7 +18,7 @@ struct SpectrumArrays {
     var timestampPtr: UnsafeMutablePointer<NSTimeInterval>
     
     var maxMagnitude: Float32 { return maxMagnitudePtr.memory }
-    var timestamp: Time { return Time(timestampPtr.memory) }
+    var timestamp: NSTimeInterval { return timestampPtr.memory }
 }
 
 class SpotifyManager: NSObject {
@@ -85,7 +85,6 @@ class SpotifyManager: NSObject {
         var playOptions = SPTPlayOptions()
         playOptions.trackIndex = Int32((random() + Int(CACurrentMediaTime())) % tracks.count)
         
-        coreAudioController.clearAudioBuffers()
         player!.playURIs(tracks, withOptions: playOptions) {
             (error: NSError?) in
             
@@ -103,6 +102,9 @@ class SpotifyManager: NSObject {
                 self.errorHandler(error!)
             }
         }
+        
+        coreAudioController.clearAudioBuffers()
+        coreAudioController.resetSpectrumData()
     }
     
     var needsAuthentication: Bool {

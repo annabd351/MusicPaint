@@ -32,5 +32,6 @@ typedef struct _SpectrumData {
 @property (nonatomic) SpectrumData spectrumData;
 
 - (void)processAudioFromLeftBuffer:(Float32 *)left rightBuffer:(Float32 *)right;
+- (void)resetSpectrumData;
 
 @end

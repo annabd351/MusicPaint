@@ -18,6 +18,12 @@ typealias Time = Scalar
 typealias Position = Vector
 typealias Size = Vector
 
+struct Rectangle {
+    let origin: Position
+    let width: Scalar
+    let height: Scalar
+}
+
 // "Constructors" for bridged, immutable GLK types
 extension Vector {
     static func new(x: GLfloat, _ y: GLfloat) -> Vector {
@@ -74,12 +80,11 @@ extension Position {
     }
 }
 
-extension CGPoint {
-    func normalizedToRect(rect: CGRect) -> CGPoint {
-        let x = (self.x - rect.origin.x)/rect.width
-        let y = (self.y - rect.origin.y)/rect.height
-        
-        return CGPoint(x, y)
+extension Rectangle {
+    init(cgRect: CGRect) {
+        origin = Position.new(cgRect.origin)
+        width = Scalar(cgRect.height)
+        height = Scalar(cgRect.height)
     }
 }
 
