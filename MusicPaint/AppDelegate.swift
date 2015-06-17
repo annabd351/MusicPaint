@@ -8,14 +8,25 @@
 
 import UIKit
 
+private let SpotifyClientID = "0d4b103690f94a7fb6154e9798f98fad"
+private let SpotifyRedirectURI = "musicpaint://"
+private let SpotifySessionUserDefaults = "SpotifySession"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Spotify authentication setup
+        var auth: SPTAuth = SPTAuth.defaultInstance()
+        auth.clientID = SpotifyClientID
+        auth.requestedScopes = [SPTAuthStreamingScope]
+        auth.redirectURL = NSURL(string: SpotifyRedirectURI)
+        auth.sessionUserDefaultsKey = SpotifySessionUserDefaults
+
         return true
     }
 

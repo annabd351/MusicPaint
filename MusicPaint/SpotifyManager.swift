@@ -106,10 +106,16 @@ class SpotifyManager: NSObject {
     }
     
     var needsAuthentication: Bool {
-        return SPTAuth.defaultInstance().session.isValid() == false
+        if let currentSession = SPTAuth.defaultInstance().session where currentSession.isValid() {
+            return false
+        }
+        else {
+            return true
+        }
     }
 
     private var session: SPTSession {
+        assert(needsAuthentication == false, "SpotifyManager always assumes session is valid.  Check authentication.")
         return SPTAuth.defaultInstance().session
     }
     

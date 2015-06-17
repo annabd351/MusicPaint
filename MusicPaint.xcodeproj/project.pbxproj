@@ -124,14 +124,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		83F2B8551B2D0B9100610216 = {
+		83BA584F1B31080B00AAA26B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				836DA2D11B306A1A009D9828 /* Spotify.framework */,
 				83AE89081B2D0F8000B76DBE /* SystemConfiguration.framework */,
 				83AE89061B2D0F6D00B76DBE /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		83BA58501B31082500AAA26B /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				83AE89041B2D0F4F00B76DBE /* Geometry.swift */,
+				83F2B89D1B2D0C4A00610216 /* ImageSamplingShader.vsh */,
+				83F2B89E1B2D0C4A00610216 /* SpriteRenderingView.h */,
+				83F2B89F1B2D0C4A00610216 /* SpriteRenderingView.m */,
+				83F2B8A01B2D0C4A00610216 /* Sprite.vsh */,
+				83F2B8A11B2D0C4A00610216 /* Sprite.fsh */,
+				83F2B8A21B2D0C4A00610216 /* SpriteBuffer.h */,
+				83F2B8A31B2D0C4A00610216 /* SpriteBuffer.m */,
+				83F2B8A41B2D0C4A00610216 /* ShaderProcessor.h */,
+				83F2B8A51B2D0C4A00610216 /* ShaderProcessor.m */,
+				83F2B8A61B2D0C4A00610216 /* GLShader.h */,
+				83F2B8A71B2D0C4A00610216 /* GLShader.m */,
+			);
+			name = Rendering;
+			sourceTree = "<group>";
+		};
+		83BA58511B31083300AAA26B /* Simulation */ = {
+			isa = PBXGroup;
+			children = (
+				83F2B88F1B2D0C3F00610216 /* Particle.swift */,
+				83F2B8901B2D0C3F00610216 /* Emitter.swift */,
+				83F2B8911B2D0C3F00610216 /* Effect.swift */,
+				83F2B8921B2D0C3F00610216 /* ParameterTypes.swift */,
+				83F2B8931B2D0C3F00610216 /* Randomization.swift */,
+				83F2B8941B2D0C3F00610216 /* Advectors.swift */,
+				83F2B8951B2D0C3F00610216 /* SimulationEntity.swift */,
+			);
+			name = Simulation;
+			sourceTree = "<group>";
+		};
+		83BA58521B31083F00AAA26B /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				83F2B8891B2D0C2F00610216 /* WiggleEffect.swift */,
+				83F2B88A1B2D0C2F00610216 /* BaseMusicEffect.swift */,
+			);
+			name = Effects;
+			sourceTree = "<group>";
+		};
+		83BA58531B31084D00AAA26B /* Spotify */ = {
+			isa = PBXGroup;
+			children = (
+				83F2B8841B2D0C2400610216 /* SpotifyManager.swift */,
+				83F2B8851B2D0C2400610216 /* CoreAudioController.h */,
+				83F2B8861B2D0C2400610216 /* CoreAudioController.m */,
+			);
+			name = Spotify;
+			sourceTree = "<group>";
+		};
+		83F2B8551B2D0B9100610216 = {
+			isa = PBXGroup;
+			children = (
 				83F2B8601B2D0B9100610216 /* MusicPaint */,
 				83F2B8761B2D0B9100610216 /* MusicPaintTests */,
+				83BA584F1B31080B00AAA26B /* Frameworks */,
 				83F2B85F1B2D0B9100610216 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -148,32 +208,12 @@
 		83F2B8601B2D0B9100610216 /* MusicPaint */ = {
 			isa = PBXGroup;
 			children = (
-				83AE89041B2D0F4F00B76DBE /* Geometry.swift */,
+				83BA58501B31082500AAA26B /* Rendering */,
+				83BA58511B31083300AAA26B /* Simulation */,
+				83BA58521B31083F00AAA26B /* Effects */,
+				83BA58531B31084D00AAA26B /* Spotify */,
 				83F2B8AF1B2D0C6000610216 /* DebugMacro.h */,
-				83F2B89D1B2D0C4A00610216 /* ImageSamplingShader.vsh */,
-				83F2B89E1B2D0C4A00610216 /* SpriteRenderingView.h */,
-				83F2B89F1B2D0C4A00610216 /* SpriteRenderingView.m */,
-				83F2B8A01B2D0C4A00610216 /* Sprite.vsh */,
-				83F2B8A11B2D0C4A00610216 /* Sprite.fsh */,
-				83F2B8A21B2D0C4A00610216 /* SpriteBuffer.h */,
-				83F2B8A31B2D0C4A00610216 /* SpriteBuffer.m */,
-				83F2B8A41B2D0C4A00610216 /* ShaderProcessor.h */,
-				83F2B8A51B2D0C4A00610216 /* ShaderProcessor.m */,
-				83F2B8A61B2D0C4A00610216 /* GLShader.h */,
-				83F2B8A71B2D0C4A00610216 /* GLShader.m */,
-				83F2B88F1B2D0C3F00610216 /* Particle.swift */,
-				83F2B8901B2D0C3F00610216 /* Emitter.swift */,
-				83F2B8911B2D0C3F00610216 /* Effect.swift */,
-				83F2B8921B2D0C3F00610216 /* ParameterTypes.swift */,
-				83F2B8931B2D0C3F00610216 /* Randomization.swift */,
-				83F2B8941B2D0C3F00610216 /* Advectors.swift */,
-				83F2B8951B2D0C3F00610216 /* SimulationEntity.swift */,
 				83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */,
-				83F2B8891B2D0C2F00610216 /* WiggleEffect.swift */,
-				83F2B88A1B2D0C2F00610216 /* BaseMusicEffect.swift */,
-				83F2B8841B2D0C2400610216 /* SpotifyManager.swift */,
-				83F2B8851B2D0C2400610216 /* CoreAudioController.h */,
-				83F2B8861B2D0C2400610216 /* CoreAudioController.m */,
 				83F2B8631B2D0B9100610216 /* AppDelegate.swift */,
 				83F2B8651B2D0B9100610216 /* ViewController.swift */,
 				83F2B8671B2D0B9100610216 /* Main.storyboard */,

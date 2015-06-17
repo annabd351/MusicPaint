@@ -2,10 +2,7 @@
 //  Geometry.swift
 //  UI
 //
-//  Copyright (c) 2015 Big Cartel. All rights reserved.
 //
-
-// TODO:  Definitely need tests for these...
 
 import UIKit
 

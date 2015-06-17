@@ -70,10 +70,8 @@ class ParticleSimViewController: GLKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let textureImage = UIImage(named:"ParticleTexture")!
-        
-        spriteRenderingView.particleTextureImage = textureImage
-        spriteRenderingView.sampleSourceTextureImage = UIImage(named: "TestImage")
+        spriteRenderingView.particleTextureImage = UIImage(named:"ParticleTexture")
+        spriteRenderingView.sampleSourceTextureImage = UIImage(named: "Eye")
         
         self.delegate = self
         
