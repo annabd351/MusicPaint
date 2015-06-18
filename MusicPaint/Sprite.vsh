@@ -1,4 +1,6 @@
-// Vertex Shader
+// Vertex shader
+
+// Points get their color by sampling an input image.
 
 static const char* SpriteVS = STRINGIFY
 (
@@ -12,6 +14,8 @@ static const char* SpriteVS = STRINGIFY
  
  // Uniforms
  uniform mat4 projectionMatrix;
+
+ // Image sampled for colors
  uniform sampler2D image;
  
  // Output to Fragment Shader

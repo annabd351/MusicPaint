@@ -1,5 +1,7 @@
 // Fragment Shader
 
+// Renders currently living points.
+
 static const char* SpriteFS = STRINGIFY
 (
  
@@ -20,11 +22,6 @@ static const char* SpriteFS = STRINGIFY
      }
      else {
          highp vec4 textureColor = texture2D(texture, gl_PointCoord);
-
-//         highp vec2 samplePoint = vec2(gl_FragCoord[0]/windowSize[0], gl_FragCoord[1]/windowSize[1]);
-//         
-//         highp vec4 imageSample = texture2D(image, samplePoint);
-         
          gl_FragColor = textureColor * fragmentColor;
      }
 

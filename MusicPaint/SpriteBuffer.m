@@ -13,21 +13,20 @@
 #include "Sprite.fsh"
 
 @implementation SpriteBuffer {
-    Sprite _allocatedSprites[kSpriteBufferCapacity];
+    Sprite _allocatedSprites[SpriteBufferCapacity];
     NSInteger _nextAvailableSpriteIndex;
 }
 
 - (instancetype)init {
     if (self = [super init]) {
-        // Set the property ivar so this is visible externally
         _nextAvailableSpriteIndex = 0;
     }
     return self;
 }
 
-- (void)loadShader {
+- (void)loadShaders {
     // Program
-    ShaderProcessor* shaderProcessor = [[ShaderProcessor alloc] init];
+    ShaderProcessor *shaderProcessor = [[ShaderProcessor alloc] init];
     self.program = [shaderProcessor BuildProgram:SpriteVS with:SpriteFS];
     
     // Attributes
@@ -46,7 +45,7 @@
 
 - (Sprite *)newSprite {
     Sprite *retVal = _allocatedSprites + _nextAvailableSpriteIndex;
-    _nextAvailableSpriteIndex = (_nextAvailableSpriteIndex + 1) % kSpriteBufferCapacity;
+    _nextAvailableSpriteIndex = (_nextAvailableSpriteIndex + 1) % SpriteBufferCapacity;
     
     return retVal;
 }

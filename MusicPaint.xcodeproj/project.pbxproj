@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		836DA2D21B306A1A009D9828 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 836DA2D11B306A1A009D9828 /* Spotify.framework */; };
-		83AE89051B2D0F4F00B76DBE /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AE89041B2D0F4F00B76DBE /* Geometry.swift */; };
 		83AE89071B2D0F6D00B76DBE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83AE89061B2D0F6D00B76DBE /* AVFoundation.framework */; };
 		83AE89091B2D0F8000B76DBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83AE89081B2D0F8000B76DBE /* SystemConfiguration.framework */; };
+		83BA58581B325F5500AAA26B /* ShaderProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8A51B2D0C4A00610216 /* ShaderProcessor.m */; };
 		83F2B8641B2D0B9100610216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8631B2D0B9100610216 /* AppDelegate.swift */; };
 		83F2B8661B2D0B9100610216 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8651B2D0B9100610216 /* ViewController.swift */; };
 		83F2B8691B2D0B9100610216 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83F2B8671B2D0B9100610216 /* Main.storyboard */; };
@@ -27,13 +27,10 @@
 		83F2B8991B2D0C3F00610216 /* ParameterTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8921B2D0C3F00610216 /* ParameterTypes.swift */; };
 		83F2B89A1B2D0C3F00610216 /* Randomization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8931B2D0C3F00610216 /* Randomization.swift */; };
 		83F2B89C1B2D0C3F00610216 /* SimulationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8951B2D0C3F00610216 /* SimulationEntity.swift */; };
-		83F2B8A81B2D0C4A00610216 /* ImageSamplingShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 83F2B89D1B2D0C4A00610216 /* ImageSamplingShader.vsh */; };
 		83F2B8A91B2D0C4A00610216 /* SpriteRenderingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B89F1B2D0C4A00610216 /* SpriteRenderingView.m */; };
 		83F2B8AA1B2D0C4A00610216 /* Sprite.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 83F2B8A01B2D0C4A00610216 /* Sprite.vsh */; };
 		83F2B8AB1B2D0C4A00610216 /* Sprite.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 83F2B8A11B2D0C4A00610216 /* Sprite.fsh */; };
 		83F2B8AC1B2D0C4A00610216 /* SpriteBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8A31B2D0C4A00610216 /* SpriteBuffer.m */; };
-		83F2B8AD1B2D0C4A00610216 /* ShaderProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8A51B2D0C4A00610216 /* ShaderProcessor.m */; };
-		83F2B8AE1B2D0C4A00610216 /* GLShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8A71B2D0C4A00610216 /* GLShader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,9 +58,9 @@
 
 /* Begin PBXFileReference section */
 		836DA2D11B306A1A009D9828 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = Spotify/Spotify.framework; sourceTree = "<group>"; };
-		83AE89041B2D0F4F00B76DBE /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		83AE89061B2D0F6D00B76DBE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		83AE89081B2D0F8000B76DBE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		83BA58571B325F0B00AAA26B /* ShaderProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderProcessor.h; sourceTree = "<group>"; };
 		83F2B85E1B2D0B9100610216 /* MusicPaint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicPaint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83F2B8621B2D0B9100610216 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83F2B8631B2D0B9100610216 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,17 +84,13 @@
 		83F2B8931B2D0C3F00610216 /* Randomization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Randomization.swift; sourceTree = "<group>"; };
 		83F2B8941B2D0C3F00610216 /* Advectors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Advectors.swift; sourceTree = "<group>"; };
 		83F2B8951B2D0C3F00610216 /* SimulationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulationEntity.swift; sourceTree = "<group>"; };
-		83F2B89D1B2D0C4A00610216 /* ImageSamplingShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ImageSamplingShader.vsh; sourceTree = "<group>"; };
 		83F2B89E1B2D0C4A00610216 /* SpriteRenderingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteRenderingView.h; sourceTree = "<group>"; };
 		83F2B89F1B2D0C4A00610216 /* SpriteRenderingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteRenderingView.m; sourceTree = "<group>"; };
 		83F2B8A01B2D0C4A00610216 /* Sprite.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Sprite.vsh; sourceTree = "<group>"; };
 		83F2B8A11B2D0C4A00610216 /* Sprite.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Sprite.fsh; sourceTree = "<group>"; };
 		83F2B8A21B2D0C4A00610216 /* SpriteBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteBuffer.h; sourceTree = "<group>"; };
 		83F2B8A31B2D0C4A00610216 /* SpriteBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteBuffer.m; sourceTree = "<group>"; };
-		83F2B8A41B2D0C4A00610216 /* ShaderProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProcessor.h; sourceTree = "<group>"; };
 		83F2B8A51B2D0C4A00610216 /* ShaderProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShaderProcessor.m; sourceTree = "<group>"; };
-		83F2B8A61B2D0C4A00610216 /* GLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLShader.h; sourceTree = "<group>"; };
-		83F2B8A71B2D0C4A00610216 /* GLShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLShader.m; sourceTree = "<group>"; };
 		83F2B8AF1B2D0C6000610216 /* DebugMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugMacro.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,18 +128,14 @@
 		83BA58501B31082500AAA26B /* Rendering */ = {
 			isa = PBXGroup;
 			children = (
-				83AE89041B2D0F4F00B76DBE /* Geometry.swift */,
-				83F2B89D1B2D0C4A00610216 /* ImageSamplingShader.vsh */,
 				83F2B89E1B2D0C4A00610216 /* SpriteRenderingView.h */,
 				83F2B89F1B2D0C4A00610216 /* SpriteRenderingView.m */,
 				83F2B8A01B2D0C4A00610216 /* Sprite.vsh */,
 				83F2B8A11B2D0C4A00610216 /* Sprite.fsh */,
 				83F2B8A21B2D0C4A00610216 /* SpriteBuffer.h */,
 				83F2B8A31B2D0C4A00610216 /* SpriteBuffer.m */,
-				83F2B8A41B2D0C4A00610216 /* ShaderProcessor.h */,
+				83BA58571B325F0B00AAA26B /* ShaderProcessor.h */,
 				83F2B8A51B2D0C4A00610216 /* ShaderProcessor.m */,
-				83F2B8A61B2D0C4A00610216 /* GLShader.h */,
-				83F2B8A71B2D0C4A00610216 /* GLShader.m */,
 			);
 			name = Rendering;
 			sourceTree = "<group>";
@@ -334,7 +323,6 @@
 				83F2B8AA1B2D0C4A00610216 /* Sprite.vsh in Resources */,
 				83F2B86B1B2D0B9100610216 /* Images.xcassets in Resources */,
 				83F2B8AB1B2D0C4A00610216 /* Sprite.fsh in Resources */,
-				83F2B8A81B2D0C4A00610216 /* ImageSamplingShader.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,16 +345,14 @@
 				83F2B89A1B2D0C3F00610216 /* Randomization.swift in Sources */,
 				83F2B8871B2D0C2400610216 /* SpotifyManager.swift in Sources */,
 				83F2B8661B2D0B9100610216 /* ViewController.swift in Sources */,
-				83F2B8AD1B2D0C4A00610216 /* ShaderProcessor.m in Sources */,
 				83F2B8971B2D0C3F00610216 /* Emitter.swift in Sources */,
-				83AE89051B2D0F4F00B76DBE /* Geometry.swift in Sources */,
 				83F2B8641B2D0B9100610216 /* AppDelegate.swift in Sources */,
 				83F2B88C1B2D0C2F00610216 /* BaseMusicEffect.swift in Sources */,
 				83F2B8A91B2D0C4A00610216 /* SpriteRenderingView.m in Sources */,
 				83F2B8991B2D0C3F00610216 /* ParameterTypes.swift in Sources */,
 				83F2B8AC1B2D0C4A00610216 /* SpriteBuffer.m in Sources */,
 				83F2B8961B2D0C3F00610216 /* Particle.swift in Sources */,
-				83F2B8AE1B2D0C4A00610216 /* GLShader.m in Sources */,
+				83BA58581B325F5500AAA26B /* ShaderProcessor.m in Sources */,
 				83F2B88E1B2D0C3600610216 /* ParticleSimViewController.swift in Sources */,
 				83F2B8881B2D0C2400610216 /* CoreAudioController.m in Sources */,
 			);

@@ -6,9 +6,6 @@
 //
 
 #import "SpriteRenderingView.h"
-#import "DebugMacro.h"
-
-#import <Spotify/Spotify.h>
 
 @implementation SpriteRenderingView {
     SpriteBuffer *_spriteBuffer;
@@ -21,8 +18,6 @@
     GLKTextureInfo *_sampleSourceTexture;
     
     BOOL _needsClearing;
-    
-    NSInteger _frameNumber;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -30,7 +25,7 @@
         self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
         [EAGLContext setCurrentContext:self.context];
 
-        // Don't need these
+        // Disable framebuffers we don't need (saves memory)
         self.drawableDepthFormat = GLKViewDrawableDepthFormatNone;
         self.drawableStencilFormat = GLKViewDrawableStencilFormatNone;
         self.drawableMultisample = GLKViewDrawableMultisampleNone;
@@ -50,7 +45,6 @@
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         _needsClearing = true;
-        _frameNumber = 0;
     }
     return self;
 }
@@ -76,12 +70,11 @@
     glUniformMatrix4fv(_spriteBuffer.projectionMatrix, 1, 0, _projectionMatrix.m);
     glUniform2f(_spriteBuffer.windowSize, (GLfloat)self.drawableWidth, (GLfloat)self.drawableHeight);
     
-//    _needsClearing = true;
-    
     [self display];
 }
 
-#pragma mark Properties
+
+// View properties
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
     [super setBackgroundColor:backgroundColor];
@@ -97,7 +90,7 @@
 }
 
 - (NSInteger)spriteCapacity {
-    return kSpriteBufferCapacity;
+    return SpriteBufferCapacity;
 }
 
 - (void)setParticleTextureImage:(UIImage *)particleTextureImage {
@@ -126,7 +119,8 @@
     }
 }
 
-#pragma mark OpenGL setup
+
+// OpenGL setup
 
 - (GLKTextureInfo *)loadTexture:(UIImage *)image {
     [EAGLContext setCurrentContext:self.context];
@@ -155,7 +149,6 @@
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(_sampleSourceTexture.target, _sampleSourceTexture.name);
     glUniform1i(_spriteBuffer.image, 1);
-
 }
 
 - (void)enableAttributeArrays {
@@ -200,19 +193,10 @@
                           (void *)(offsetof(Sprite, lifespan)));
 }
 
-- (void)disableAttributeArrays {
-    glDisableVertexAttribArray(_spriteBuffer.position);
-    glDisableVertexAttribArray(_spriteBuffer.color);
-    glDisableVertexAttribArray(_spriteBuffer.scale);
-    glDisableVertexAttribArray(_spriteBuffer.age);
-    glDisableVertexAttribArray(_spriteBuffer.lifespan);
-}
 
-#pragma Rendering
+// Render loop
 
 - (void)drawRect:(CGRect)rect {
-    _frameNumber++;
-
     if (self.clearFramebufferBeforeDrawing || _needsClearing) {
         [self clearFramebuffer];
         _needsClearing = false;
@@ -221,11 +205,11 @@
     // Draw particles
     glBufferData(
                  GL_ARRAY_BUFFER,
-                 sizeof(Sprite) * kSpriteBufferCapacity,
+                 sizeof(Sprite) * SpriteBufferCapacity,
                  _spriteBuffer.sprites,
                  GL_STATIC_DRAW);
 
-    glDrawArrays(GL_POINTS, 0, kSpriteBufferCapacity);
+    glDrawArrays(GL_POINTS, 0, SpriteBufferCapacity);
     
 }
 
@@ -234,12 +218,13 @@
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-#pragma Debugging
+
+// Debugging
 
 - (void)loadTestPattern {
     
     // Clear sprite buffer
-    for (int index = 0; index < kSpriteBufferCapacity; index++) {
+    for (int index = 0; index < SpriteBufferCapacity; index++) {
         _spriteBuffer.sprites[index].lifespan = 0.0f;
         _spriteBuffer.sprites[index].age = 1.0f;
     }
@@ -262,7 +247,6 @@
     }
 }
 
-// For debugging
 + (void)checkGLError {
     glFlush();
     
