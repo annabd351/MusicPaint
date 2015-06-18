@@ -14,7 +14,7 @@ import UIKit
 final class SwirlEffectState: SimulationStateType {
     // (determined via trial and error)
 
-    var maxEmissionRate: Scalar = 1000
+    var maxEmissionRate: Scalar = 500
     
     var swirlForceFrequency: Scalar = 12
     var swirlForceScale: Scalar = 2

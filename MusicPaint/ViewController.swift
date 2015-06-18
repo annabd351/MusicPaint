@@ -71,7 +71,6 @@ class ViewController: GLKViewController {
     }
 }
 
-
 extension ViewController: GLKViewControllerDelegate {
     func glkViewControllerUpdate(controller: GLKViewController!) {
         effect?.update(GlobalSimTime, timestep: Float(controller.timeSinceLastUpdate))
