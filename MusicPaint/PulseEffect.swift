@@ -12,9 +12,7 @@ import UIKit
 
 // Settings for this effect
 final class PulseEffectState: SimulationStateType {
-    var initialRate: Scalar = 1.0
-
-    var maxParticleEmissionRate: Scalar = 10.0
+    var maxParticleEmissionRate: Scalar = 1000.0
     
     var baseForceFrequency: Scalar = 60.0
     var baseForceMagnitudeScale: Scalar = 3.0
@@ -22,7 +20,6 @@ final class PulseEffectState: SimulationStateType {
     var spectrumDrivenForceMagnitudeScale: Scalar = 0.1
     convenience init(original: PulseEffectState) {
         self.init()
-        self.initialRate = original.initialRate
         self.maxParticleEmissionRate = original.maxParticleEmissionRate
         self.baseForceFrequency = original.baseForceFrequency
         self.baseForceMagnitudeScale = original.baseForceMagnitudeScale
@@ -41,29 +38,32 @@ class PulseEffect<S: SimulationStateType>: SimulationEntity<PulseEffectState, Em
     let spectrumArrays: SpectrumArrays
 
     func start() {
-        running = true
+        emitter.currentState.rate = 0.0
     }
     
     func stop() {
-        running = false
+        emitter.currentState.rate = 0.0
     }
 
-    private var running = false
+//    private var running = false
+//
+//    override func update(currentTime: Time, timestep: Time) {
+//        if running {
+//            super.update(currentTime, timestep: timestep)
+//        }
+//    }
 
-    override func update(currentTime: Time, timestep: Time) {
-        if running {
-            super.update(currentTime, timestep: timestep)
-        }
-    }
+    // This effect contains one emitter
+    private let emitter: PulsingAreaEmitter<EmitterState>
 
     init(initialState: PulseEffectState, spriteBuffer: SpriteBuffer, bounds: CGRect, spectrumArrays: SpectrumArrays) {
+
         self.bounds = bounds
         self.spriteBuffer = spriteBuffer
         self.spectrumArrays = spectrumArrays
-        super.init(initialState: initialState, currentTime: GlobalSimTime)
+        self.emitter = PulsingAreaEmitter<EmitterState>(bounds: Rectangle(cgRect: bounds), spriteBuffer: spriteBuffer, currentTime: GlobalSimTime)
 
-        // This effect contains one emitter
-        let emitter = PulsingAreaEmitter<EmitterState>(initialRate: initialState.initialRate, bounds: Rectangle(cgRect: bounds), spriteBuffer: spriteBuffer, currentTime: GlobalSimTime)
+        super.init(initialState: initialState, currentTime: GlobalSimTime)
 
         createdEntities += [emitter]
         
@@ -79,10 +79,10 @@ class PulseEffect<S: SimulationStateType>: SimulationEntity<PulseEffectState, Em
 private class PulsingAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> {
 
     // Emit particles continuously
-    override func isAliveAtTime(currentTime: Time) -> Bool {
-        return true
+    private override func relativeAge(currentTime: Time) -> Time {
+        return 0
     }
-
+    
     // Emit to random position in this rectangle
     let bounds: Rectangle
     
@@ -99,7 +99,7 @@ private class PulsingAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> 
         return newParticles
     }
     
-    init(initialRate: Scalar, bounds: Rectangle, spriteBuffer: SpriteBuffer, currentTime: Time) {
+    init(bounds: Rectangle, spriteBuffer: SpriteBuffer, currentTime: Time) {
         self.bounds = bounds
         
         let initialState = EmitterState(
@@ -110,7 +110,7 @@ private class PulsingAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> 
             velocity: VectorZero,
 
             // These are applicable
-            rate: initialRate,
+            rate: Scalar(0.0),
             spriteBuffer: spriteBuffer
         )
         

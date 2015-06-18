@@ -90,7 +90,7 @@ class SimulationEntity<S: SimulationStateType, E: SimulationEntityType>: Simulat
     }
 
     func isAliveAtTime(currentTime: Time) -> Bool {
-        return currentTime - birthTime <= currentState.lifespan
+        return relativeAge(currentTime) <= currentState.lifespan
     }
     
     func normalizedAge(currentTime: Time) -> Time {

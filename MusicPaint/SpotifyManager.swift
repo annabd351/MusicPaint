@@ -33,15 +33,7 @@ class SpotifyManager: NSObject {
     var errorHandler: (NSError) -> ()
 
     // Audio data
-    let _spectrumArrays: SpectrumArrays    
-    var spectrumArrays: SpectrumArrays? {
-        if playState == .Playing {
-            return _spectrumArrays
-        }
-        else {
-            return nil
-        }
-    }
+    let spectrumArrays: SpectrumArrays
 
     // Is audio currently playing?
     enum PlayerState {
@@ -130,7 +122,7 @@ class SpotifyManager: NSObject {
         let leftSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.leftPtr, count: coreAudioController.spectrumData.samples)
         let rightSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.rightPtr, count: coreAudioController.spectrumData.samples)
 
-        _spectrumArrays = SpectrumArrays(left: leftSpectrumArray, right: rightSpectrumArray, maxMagnitudePtr: coreAudioController.spectrumData.maxMagnitudePtr, timestampPtr: coreAudioController.spectrumData.timestampPtr)
+        spectrumArrays = SpectrumArrays(left: leftSpectrumArray, right: rightSpectrumArray, maxMagnitudePtr: coreAudioController.spectrumData.maxMagnitudePtr, timestampPtr: coreAudioController.spectrumData.timestampPtr)
     }
 
 

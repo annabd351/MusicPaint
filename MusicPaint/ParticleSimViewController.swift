@@ -76,7 +76,7 @@ class ParticleSimViewController: GLKViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        var initialEffectState = PulseEffectState()
+        effect = PulseEffect(initialState: PulseEffectState(), spriteBuffer: spriteRenderingView.spriteBuffer, bounds: view.frame, spectrumArrays: spotifyManager.spectrumArrays)
     }
 }
 
@@ -109,13 +109,11 @@ extension ParticleSimViewController: SPTAuthViewDelegate {
 extension ParticleSimViewController: SPTAudioStreamingPlaybackDelegate {
     func audioStreaming(audioStreaming: SPTAudioStreamingController!, didChangePlaybackStatus isPlaying: Bool) {
         if isPlaying {
-//            effect = PulseEffect<AnySimulationState>(spriteRenderingView: spriteRenderingView)
-//            effect!.fillRect(spriteRenderingView.frame)
-//            effect!.spectrumArrays = spotifyManager.spectrumArrays
-
+            effect?.start()
             spotifyButton.setTitle("Stop", forState: UIControlState.Normal)
         }
         else {
+            effect?.stop()
             spotifyButton.setTitle("Play", forState: UIControlState.Normal)
         }
     }
