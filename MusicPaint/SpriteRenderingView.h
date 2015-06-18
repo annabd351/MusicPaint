@@ -29,6 +29,7 @@
 // framebuffer retains its contents, creating trails.
 @property (nonatomic) BOOL clearFramebufferBeforeDrawing;
 
+- (void)clear;
 - (void)loadTestPattern;
 
 @end

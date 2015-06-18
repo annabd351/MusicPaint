@@ -17,40 +17,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTb-dQ-oYo" userLabel="Spotify">
-                                <rect key="frame" x="503" y="32" width="49" height="30"/>
-                                <state key="normal" title="Spotify"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTb-dQ-oYo">
+                                <rect key="frame" x="522" y="32" width="30" height="30"/>
+                                <state key="normal" title="Play"/>
                                 <connections>
-                                    <action selector="spotifyButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="Mqi-be-aFm"/>
+                                    <action selector="playButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="kZQ-Cb-k6j"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOl-G2-peI">
+                                <rect key="frame" x="279" y="32" width="43" height="30"/>
+                                <state key="normal" title="Image">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="imageButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="4Es-4z-D8e"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Lt-Q6-get">
+                                <rect key="frame" x="32" y="32" width="37" height="30"/>
+                                <state key="normal" title="Clear">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="VQv-Fg-cBh"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="OTb-dQ-oYo" firstAttribute="top" secondItem="P3O-Jf-LNl" secondAttribute="topMargin" constant="32" id="eUG-lI-C21"/>
+                            <constraint firstItem="gOl-G2-peI" firstAttribute="centerY" secondItem="OTb-dQ-oYo" secondAttribute="centerY" id="3XJ-qx-ri0"/>
+                            <constraint firstAttribute="centerX" secondItem="gOl-G2-peI" secondAttribute="centerX" id="QgX-XU-nml"/>
+                            <constraint firstItem="1Lt-Q6-get" firstAttribute="leading" secondItem="P3O-Jf-LNl" secondAttribute="leading" constant="32" id="WN9-1m-y8K"/>
+                            <constraint firstItem="1Lt-Q6-get" firstAttribute="centerY" secondItem="gOl-G2-peI" secondAttribute="centerY" id="aN1-3W-syL"/>
+                            <constraint firstItem="OTb-dQ-oYo" firstAttribute="top" secondItem="P3O-Jf-LNl" secondAttribute="top" constant="32" id="eUG-lI-C21"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OTb-dQ-oYo" secondAttribute="trailing" constant="32" id="pby-U4-ufq"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="Cdn-8G-rwu" appends="YES" id="4bH-l0-yXL"/>
-                            <outletCollection property="gestureRecognizers" destination="jR5-NE-j6P" appends="YES" id="Igl-vx-0qE"/>
-                        </connections>
                     </view>
                     <connections>
-                        <outlet property="spotifyButton" destination="OTb-dQ-oYo" id="0Nh-XP-9Aa"/>
+                        <outlet property="playButton" destination="OTb-dQ-oYo" id="SSL-bV-qwW"/>
                         <outlet property="spriteRenderingView" destination="P3O-Jf-LNl" id="JRy-6C-GlF"/>
-                        <outlet property="tapGestureRecognizer" destination="Cdn-8G-rwu" id="ZCV-Qw-FlU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GuL-Xt-G1M" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="Cdn-8G-rwu"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="jR5-NE-j6P">
-                    <connections>
-                        <action selector="handleLongPress:" destination="4LC-vm-HAt" id="9QX-qi-j7y"/>
-                    </connections>
-                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="jR5-NE-j6P"/>
             </objects>
-            <point key="canvasLocation" x="392" y="-218"/>
+            <point key="canvasLocation" x="-17" y="-229"/>
         </scene>
     </scenes>
 </document>

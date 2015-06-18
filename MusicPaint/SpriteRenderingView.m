@@ -73,6 +73,10 @@
     [self display];
 }
 
+- (void)clear {
+    _needsClearing = true;
+    [self setNeedsDisplay];
+}
 
 // View properties
 

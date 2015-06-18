@@ -13,14 +13,17 @@ import UIKit
 // Settings for this effect
 final class PulseEffectState: SimulationStateType {
     var maxParticleEmissionRate: Scalar = 1000
-    var emissionRateScale: Scalar = 10
+    var emissionRateScale: Scalar = 5
     
-    var baseForceFrequency: Scalar = 60.0
-    var baseForceMagnitudeScale: Scalar = 100
+    var baseForceFrequency: Scalar = 60
+    var baseForceMagnitudeScale: Scalar = 3
     
     convenience init(original: PulseEffectState) {
         self.init()
-        // TODO: Copy
+        self.maxParticleEmissionRate = original.maxParticleEmissionRate
+        self.emissionRateScale = original.emissionRateScale
+        self.baseForceFrequency = original.baseForceFrequency
+        self.baseForceMagnitudeScale = original.baseForceMagnitudeScale
     }
     
     // Unused
@@ -38,7 +41,7 @@ private func createParticle(sprite: UnsafeMutablePointer<Sprite>, position: Posi
     initialParticleState.velocity = VectorZero.randomizedValueByOffset(-1.0)
     initialParticleState.scale = Scalar(12.0).randomizedValueByProportion(1.0)
     initialParticleState.lifespan = Scalar(10.0).randomizedValueByProportion(0.5)
-    initialParticleState.color = Color.new(Scalar(1.0), Scalar(1.0), Scalar(1.0), Scalar(0.75).randomizedValueByProportion(0.5))
+    initialParticleState.color = Color.new(Scalar(1.0), Scalar(1.0), Scalar(1.0), Scalar(0.25).randomizedValueByProportion(0.5))
     
     return Particle(initialState: initialParticleState, currentTime: GlobalSimTime)
 }
@@ -92,11 +95,11 @@ class PulseEffect<S: SimulationStateType>: SimulationEntity<PulseEffectState, Em
     let spectrumArrays: SpectrumArrays
 
     func start() {
-        emitter.currentState.rate = 0.0
+        currentState.maxParticleEmissionRate = initialState.maxParticleEmissionRate
     }
     
     func stop() {
-        emitter.currentState.rate = 0.0
+        currentState.maxParticleEmissionRate = 0
     }
 
     // This effect contains one emitter
@@ -116,8 +119,9 @@ class PulseEffect<S: SimulationStateType>: SimulationEntity<PulseEffectState, Em
         // Function used to update the emitter
         addCreatedEntityUpdateFunction(varyEmissionRate)
         
-        // Function the emitter uses to update its particles
+        // Functions the emitter uses to update its particles
         emitter.addCreatedEntityUpdateFunction(fade)
+        emitter.addCreatedEntityUpdateFunction(applySinusoidalForce)
     }
 }
 

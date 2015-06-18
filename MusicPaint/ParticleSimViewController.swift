@@ -10,21 +10,9 @@ import UIKit
 
 class ParticleSimViewController: GLKViewController {
     
-
-    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var spriteRenderingView: SpriteRenderingView!
     
-    func handleGesture(sender: UIGestureRecognizer) {
-        if let tapGestureRecognizer = sender as? UITapGestureRecognizer {
-//            for index in 0..<tapGestureRecognizer.numberOfTouches() {
-//                let touchLocationInView = tapGestureRecognizer.locationOfTouch(index, inView: spriteRenderingView)
-//                
-//                effect?.addEmitterAtPosition(Position.new(touchLocationInView))
-//            }
-        }
-    }
-    
-    @IBAction func handleLongPress(sender: UILongPressGestureRecognizer) {
+    @IBAction func imageButtonPressed(sender: AnyObject) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         self.presentViewController(imagePicker, animated: true, completion: nil)
@@ -33,8 +21,12 @@ class ParticleSimViewController: GLKViewController {
     var spotifyManager: SpotifyManager!
     var effect: PulseEffect<PulseEffectState>?
     
-    @IBOutlet weak var spotifyButton: UIButton!
-    @IBAction func spotifyButtonPressed(sender: AnyObject) {
+    @IBAction func clearButtonPressed(sender: AnyObject) {
+        spriteRenderingView.clear()
+    }
+    
+    @IBOutlet weak var playButton: UIButton!
+    @IBAction func playButtonPressed(sender: AnyObject) {
         if spotifyManager.needsAuthentication {
             let sptAuthViewController = SPTAuthViewController.authenticationViewController()
             sptAuthViewController.delegate = self
@@ -67,7 +59,7 @@ class ParticleSimViewController: GLKViewController {
         
         self.delegate = self
         
-        spotifyButton.setTitle("Play", forState: UIControlState.Normal)
+        playButton.setTitle("Play", forState: UIControlState.Normal)
         
         spotifyManager = SpotifyManager(errorHandler: handleSpotifyError)
         spotifyManager.playbackDelegate = self
@@ -96,7 +88,7 @@ extension ParticleSimViewController: UIImagePickerControllerDelegate, UINavigati
 
 extension ParticleSimViewController: SPTAuthViewDelegate {
     func authenticationViewController(authenticationViewController: SPTAuthViewController!, didLoginWithSession session: SPTSession!) {
-        spotifyButtonPressed(self)
+        playButtonPressed(self)
     }
     
     func authenticationViewController(authenticationViewController: SPTAuthViewController!, didFailToLogin error: NSError!) {
@@ -110,11 +102,12 @@ extension ParticleSimViewController: SPTAudioStreamingPlaybackDelegate {
     func audioStreaming(audioStreaming: SPTAudioStreamingController!, didChangePlaybackStatus isPlaying: Bool) {
         if isPlaying {
             effect?.start()
-            spotifyButton.setTitle("Stop", forState: UIControlState.Normal)
+            playButton.setTitle("Stop", forState: UIControlState.Normal)
         }
         else {
             effect?.stop()
-            spotifyButton.setTitle("Play", forState: UIControlState.Normal)
+            spotifyManager.resetSpectrumArrays()
+            playButton.setTitle("Play", forState: UIControlState.Normal)
         }
     }
 }

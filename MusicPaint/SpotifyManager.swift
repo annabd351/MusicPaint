@@ -35,6 +35,10 @@ class SpotifyManager: NSObject {
     // Audio data
     let spectrumArrays: SpectrumArrays
 
+    func resetSpectrumArrays() {
+        coreAudioController.clearAudioBuffers()
+    }
+    
     // Is audio currently playing?
     enum PlayerState {
         case Playing
