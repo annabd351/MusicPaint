@@ -5,21 +5,31 @@
 //  Copyright (c) 2015 Wacky Banana Software. All rights reserved.
 //
 
+// A particle is a SimulationEntity which can be rendered as a Sprite.  It has no child entities.
+
 import UIKit
 import GLKit
 
-// A particle is a SimulationEntity with a Color
 class Particle<S: SimulationStateType>: SimulationEntity<ParticleState, AnySimulationEntity>  {
     override init(initialState: ParticleState, currentTime: Time) {
         super.init(initialState: initialState, currentTime: currentTime)
     }    
 }
 
-// Particle state references memory in a Sprite
 struct ParticleState: SimulationStateType {
+
+    // Each particle has a unique ID
+    var ID: Int {
+        return ParticleState.TotalCount++
+    }
+
+    // Total number of particles (with this type of state) created by the system
+    static var TotalCount = 0
+
+    // Direct reference to the Sprite used to render this Particle
     let sprite: UnsafeMutablePointer<Sprite>
-    
-    // Particle properties are stored in the sprite so they
+
+    // Particle properties are stored in the Sprite so they
     // don't have to be copied on each render cycle
     var position: Position {
         get { return sprite.memory.position }
@@ -48,13 +58,12 @@ struct ParticleState: SimulationStateType {
 
     var velocity: Vector = Vector.new(Scalar(0), Scalar(0))
 
-    static var TotalCount = 0
-    
-    var ID: Int {
-        return ParticleState.TotalCount++
-    }
-    
     init(sprite: UnsafeMutablePointer<Sprite>) {
         self.sprite = sprite
+    }
+    
+    init(original: ParticleState) {
+        self.sprite = original.sprite
+        self.velocity = original.velocity
     }
 }

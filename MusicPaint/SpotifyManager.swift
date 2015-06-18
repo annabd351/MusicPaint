@@ -6,26 +6,33 @@
 //  Copyright (c) 2015 Wacky Banana Software. All rights reserved.
 //
 
+// Encapsulate all state and functionality related to connecting to the Spotify API.
+
+// TODO: Handle session expiration and renewal
+// TODO: User-selectable playlist
+
 import UIKit
 
 private let MusicPaintPlaylist = NSURL(string: "spotify:user:1248346814:playlist:2vjzaJmtHBvscVPBNTb55D")
 private let DiskCacheSize: UInt = 1024 * 1024 * 64
 
+// Swift-bridged version of the data from CoreAudioController
 struct SpectrumArrays {
     var left: UnsafeMutableBufferPointer<Float32>
     var right: UnsafeMutableBufferPointer<Float32>
     var maxMagnitudePtr: UnsafeMutablePointer<Float32>
-    var maxFrequencyPtr: UnsafeMutablePointer<Float32>
     var timestampPtr: UnsafeMutablePointer<NSTimeInterval>
     
-    var maxFrequency: Float32 { return maxFrequencyPtr.memory }
     var maxMagnitude: Float32 { return maxMagnitudePtr.memory }
     var timestamp: NSTimeInterval { return timestampPtr.memory }
 }
 
 class SpotifyManager: NSObject {
+
+    // Invoked asynchronously any time the Spotify API signals an error
     var errorHandler: (NSError) -> ()
-    
+
+    // Audio data
     let _spectrumArrays: SpectrumArrays    
     var spectrumArrays: SpectrumArrays? {
         if playState == .Playing {
@@ -35,16 +42,8 @@ class SpotifyManager: NSObject {
             return nil
         }
     }
-    
-    init(errorHandler: (NSError) -> ()) {
-        self.errorHandler = errorHandler
 
-        let leftSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.leftPtr, count: coreAudioController.spectrumData.samples)
-        let rightSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.rightPtr, count: coreAudioController.spectrumData.samples)
-        
-        _spectrumArrays = SpectrumArrays(left: leftSpectrumArray, right: rightSpectrumArray, maxMagnitudePtr: coreAudioController.spectrumData.maxMagnitudePtr, maxFrequencyPtr: coreAudioController.spectrumData.maxFrequencyPtr, timestampPtr: coreAudioController.spectrumData.timestampPtr)
-    }
-
+    // Is audio currently playing?
     enum PlayerState {
         case Playing
         case Stopped
@@ -58,15 +57,27 @@ class SpotifyManager: NSObject {
             return .Unknown
         }
     }
-    
+
+    // SpotifyManager assumes an active, valid Spotify session is in progress -- it doesn't do any authentication itself since
+    // that's generally a UI-related task.  A view controller using a SpotifyManager checks this variable and performs
+    // authentication when needed.
+    var needsAuthentication: Bool {
+        if let currentSession = SPTAuth.defaultInstance().session where currentSession.isValid() {
+            return false
+        }
+        else {
+            return true
+        }
+    }
+
+    // Delegate for SPTAudioStreamingController.  Set this to be notified of playback events.
     var playbackDelegate: SPTAudioStreamingPlaybackDelegate? {
         didSet {
             player?.playbackDelegate = playbackDelegate
         }
     }
-    
-    private var coreAudioController = CoreAudioController()
-    
+
+    // Start playing a random track from the playlist
     func play() {
         if playlistRequest == nil {
             createPlaylistRequest { self.play() }
@@ -98,7 +109,8 @@ class SpotifyManager: NSObject {
             }
         }
     }
-    
+
+    // Stop playback
     func stop() {
         player?.stop {
             (error: NSError?) in
@@ -111,24 +123,29 @@ class SpotifyManager: NSObject {
         coreAudioController.clearAudioBuffers()
         coreAudioController.resetSpectrumData()
     }
-    
-    var needsAuthentication: Bool {
-        if let currentSession = SPTAuth.defaultInstance().session where currentSession.isValid() {
-            return false
-        }
-        else {
-            return true
-        }
+
+    init(errorHandler: (NSError) -> ()) {
+        self.errorHandler = errorHandler
+
+        let leftSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.leftPtr, count: coreAudioController.spectrumData.samples)
+        let rightSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.rightPtr, count: coreAudioController.spectrumData.samples)
+
+        _spectrumArrays = SpectrumArrays(left: leftSpectrumArray, right: rightSpectrumArray, maxMagnitudePtr: coreAudioController.spectrumData.maxMagnitudePtr, timestampPtr: coreAudioController.spectrumData.timestampPtr)
     }
+
+
+    // Internal
+
+    private var coreAudioController = CoreAudioController()
 
     private var session: SPTSession {
         assert(needsAuthentication == false, "SpotifyManager always assumes session is valid.  Check authentication.")
         return SPTAuth.defaultInstance().session
     }
+
+    private var playlistRequest: NSURLRequest?
     
-    var playlistRequest: NSURLRequest?
-    
-    func createPlaylistRequest(completion: () -> ()) {
+    private func createPlaylistRequest(completion: () -> ()) {
         var playlistRequestError: NSError?
         playlistRequest = SPTPlaylistSnapshot.createRequestForPlaylistWithURI(MusicPaintPlaylist, accessToken: self.session.accessToken, error: &playlistRequestError)
         
@@ -140,9 +157,9 @@ class SpotifyManager: NSObject {
         }
     }
     
-    var playlistSnapshot: SPTPlaylistSnapshot?
+    private var playlistSnapshot: SPTPlaylistSnapshot?
     
-    func createPlaylistSnapshot(completion: () -> ()) {
+    private func createPlaylistSnapshot(completion: () -> ()) {
         SPTRequest.sharedHandler().performRequest(playlistRequest!) {
             (error: NSError?, response: NSURLResponse?, data: NSData?) in
             
@@ -162,9 +179,9 @@ class SpotifyManager: NSObject {
         }
     }
     
-    var player: SPTAudioStreamingController?
+    private var player: SPTAudioStreamingController?
     
-    func createPlayer(completion: () -> ()) {
+    private func createPlayer(completion: () -> ()) {
         player = SPTAudioStreamingController(clientId: SPTAuth.defaultInstance().clientID, audioController: coreAudioController)
         player!.playbackDelegate = self.playbackDelegate
         player!.diskCache = SPTDiskCache(capacity: DiskCacheSize)
@@ -180,5 +197,3 @@ class SpotifyManager: NSObject {
         }
     }
 }
-
-

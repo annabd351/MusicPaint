@@ -32,7 +32,7 @@
         
         // Create sprite buffer and load shader
         _spriteBuffer = [[SpriteBuffer alloc] init];
-        [_spriteBuffer loadShader];
+        [_spriteBuffer loadShaders];
         glUseProgram(_spriteBuffer.program);
 
         // Generate a virtual OpenGL buffer for the sprites
@@ -89,7 +89,7 @@
     return _spriteBuffer;
 }
 
-- (NSInteger)spriteCapacity {
+- (NSInteger)spriteBufferCapacity {
     return SpriteBufferCapacity;
 }
 

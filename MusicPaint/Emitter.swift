@@ -5,12 +5,13 @@
 //  Copyright (c) 2015 Wacky Banana Software. All rights reserved.
 //
 
+// An emitter is a SimulationEntity which contains Particles and methods for modifying and creating them.
+
 import UIKit
 
-// An emitter is a SimulationEntity which contains Particles and methods for modifying and creating them
 class Emitter<T: SimulationStateType>: SimulationEntity<EmitterState, Particle<ParticleState>> {
     
-    // Particle creation
+    // The calls this function to create a new Particle
     typealias ParticleGeneratorFunction = (UnsafeMutablePointer<Sprite>, Position) -> Particle<ParticleState>
     let particleGenerator: ParticleGeneratorFunction
     
@@ -18,8 +19,8 @@ class Emitter<T: SimulationStateType>: SimulationEntity<EmitterState, Particle<P
         // Update existing particles
         super.update(currentTime, timestep: timestep)
         
-        // Emit new particles
-        if self.isAliveAtTime(currentTime) {
+        // Emit new particles until this Emitter's lifepsan has expired
+        if self.relativeAge(currentTime) <= self.initialState.lifespan {
             createdEntities += emitParticles(neededParticles(currentTime, timestep: timestep))
         }
     }
@@ -38,7 +39,11 @@ class Emitter<T: SimulationStateType>: SimulationEntity<EmitterState, Particle<P
     func neededParticles(currentTime: Time, timestep: Time) -> Int {
         return Int(self.currentState.rate * timestep)
     }
-    
+
+    // An Emitter is alive as long as it contains Particles.  Note that it
+    // only creates *new* particles during its lifespan;  in other words, even
+    // after it stops creating Particles, it still needs to update them until
+    // they die.
     override func isAliveAtTime(currentTime: Time) -> Bool {
         if createdEntities.count > 0 {
             return true
@@ -65,5 +70,23 @@ struct EmitterState: SimulationStateType {
 
     // Sprites used to render particles
     let spriteBuffer: SpriteBuffer
+    
+    init(position: Position, scale: Scalar, lifespan: Scalar, velocity: Vector, rate: Scalar, spriteBuffer: SpriteBuffer) {
+        self.position = position
+        self.scale = scale
+        self.lifespan = lifespan
+        self.velocity = velocity
+        self.rate = rate
+        self.spriteBuffer = spriteBuffer
+    }
+    
+    init(original: EmitterState) {
+        self.position = original.position
+        self.scale = original.scale
+        self.lifespan = original.lifespan
+        self.velocity = original.velocity
+        self.rate = original.rate
+        self.spriteBuffer = original.spriteBuffer
+    }
 }
 

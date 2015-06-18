@@ -1,6 +1,6 @@
 //
 //  Randomization.swift
-//  SwiftDataStructures
+//  Music Paint
 //
 //  Created by Anna Dickinson on 5/25/15.
 //  Copyright (c) 2015 Wacky Banana Software. All rights reserved.

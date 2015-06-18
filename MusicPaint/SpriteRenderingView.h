@@ -7,6 +7,8 @@
 
 // OpenGL view which stores and displays point sprites.
 
+// TODO: Not currently handling view and image vs. device rotation.
+
 #import <GLKit/GLKit.h>
 #import "SpriteBuffer.h"
 
@@ -14,7 +16,7 @@
 
 // All living (age <= lifespan) sprites in this buffer are rendered on each update.
 @property (nonatomic, readonly) SpriteBuffer *spriteBuffer;
-@property (nonatomic, readonly) NSInteger spriteCapacity;
+@property (nonatomic, readonly) NSInteger spriteBufferCapacity;
 
 // Texture for each sprite (all sprites in the view use the same one)
 @property (nonatomic) UIImage *particleTextureImage;

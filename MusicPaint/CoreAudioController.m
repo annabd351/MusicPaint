@@ -10,6 +10,8 @@
 #import "CoreAudioController.h"
 #import <Accelerate/Accelerate.h>
 
+// TODO: Can all data be double?  Currently, it's cast back and forth to Float32
+
 // Function called when an audio sample is received
 static OSStatus EQRenderCallback(void *inRefCon,
                                  AudioUnitRenderActionFlags  *ioActionFlags,
@@ -87,7 +89,6 @@ static NSUInteger const fftMagnitudeExponent = 9;
         _spectrumData.leftPtr = _spectrumData.left;
         _spectrumData.rightPtr = _spectrumData.right;
         _spectrumData.maxMagnitudePtr = &_spectrumData.maxMagnitude;
-        _spectrumData.maxFrequencyPtr = &_spectrumData.maxFrequency;
         _spectrumData.timestampPtr = &_spectrumData.timestamp;
     }
     return self;
@@ -110,8 +111,8 @@ static NSUInteger const fftMagnitudeExponent = 9;
     int highestSampleIndex = 0;
     
     for (int i = 0; i < _spectrumData.samples; i++) {
-        leftAbs = fabs(_spectrumData.left[i]);
-        rightAbs = fabs(_spectrumData.right[i]);
+        leftAbs = fabsf(_spectrumData.left[i]);
+        rightAbs = fabsf(_spectrumData.right[i]);
         
         maxMagnitude = MAX(maxMagnitude, leftAbs);
         maxMagnitude = MAX(maxMagnitude, rightAbs);
@@ -123,9 +124,6 @@ static NSUInteger const fftMagnitudeExponent = 9;
 
     _spectrumData.maxMagnitude = maxMagnitude;
     _spectrumData.timestamp = CACurrentMediaTime();
-
-    // TODO: Not sure of the units, here...
-    _spectrumData.maxFrequency = (Float32)highestSampleIndex;
 }
 
 -(void)performEightBitFFTWithWaveformsLeft:(Float32 *)leftFrames
@@ -182,7 +180,7 @@ static NSUInteger const fftMagnitudeExponent = 9;
     // Get magnitudes
     vDSP_zvmagsD(&rightInput, 1, rightChannelMagnitudes, 1, exp2(fftMagnitudeExponent));
     
-    // TODO: Inefficient, but wasn't sure how all these buffers work...
+    // TODO: Figure out double to Float32 casting so this can be done with memcpy
     for (int i = 0; i < frameCount; i++) {
         leftDestination[i] = (Float32)leftChannelMagnitudes[i];
         rightDestination[i] = (Float32)leftChannelMagnitudes[i];
@@ -267,7 +265,6 @@ static NSUInteger const fftMagnitudeExponent = 9;
 - (void)resetSpectrumData {
     // Clear out stale spectrum data
     _spectrumData.maxMagnitude = 0.0f;
-    _spectrumData.maxFrequency = 0.0f;
     memset(_spectrumData.left, 0, BufferSamples * sizeof(Float32));
     memset(_spectrumData.right, 0, BufferSamples * sizeof(Float32));
 }

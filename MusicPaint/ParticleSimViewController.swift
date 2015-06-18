@@ -14,15 +14,6 @@ class ParticleSimViewController: GLKViewController {
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var spriteRenderingView: SpriteRenderingView!
     
-    var effect: BaseMusicEffect<AnySimulationState>? {
-        didSet {
-            if let currentEffect = effect {
-                currentEffect.spriteRenderingView = self.spriteRenderingView
-                tapGestureRecognizer.addTarget(self, action: "handleGesture:")
-            }
-        }
-    }
-    
     func handleGesture(sender: UIGestureRecognizer) {
         if let tapGestureRecognizer = sender as? UITapGestureRecognizer {
 //            for index in 0..<tapGestureRecognizer.numberOfTouches() {
@@ -40,7 +31,8 @@ class ParticleSimViewController: GLKViewController {
     }
     
     var spotifyManager: SpotifyManager!
-
+    var effect: PulseEffect<PulseEffectState>?
+    
     @IBOutlet weak var spotifyButton: UIButton!
     @IBAction func spotifyButtonPressed(sender: AnyObject) {
         if spotifyManager.needsAuthentication {
@@ -82,26 +74,10 @@ class ParticleSimViewController: GLKViewController {
         
         spriteRenderingView.clearFramebufferBeforeDrawing = true
     }
-
-    // TODO: Make splines between touches
     
-//    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-//        for touch in (touches as! Set<UITouch>) {
-//            effect?.addEmitterAtPosition(Position.new(touch.locationInView(view)))
-//        }
-//    }
-
-//    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
-//        for touch in (touches as! Set<UITouch>) {
-//            effect?.addEmitterAtPosition(Position.new(touch.locationInView(view)))
-//        }
-//    }
-
-//    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-//        for touch in (touches as! Set<UITouch>) {
-//            effect?.addEmitterAtPosition(Position.new(touch.locationInView(view)))
-//        }
-//    }
+    override func viewDidAppear(animated: Bool) {
+        var initialEffectState = PulseEffectState()
+    }
 }
 
 
@@ -109,11 +85,6 @@ extension ParticleSimViewController: GLKViewControllerDelegate {
     func glkViewControllerUpdate(controller: GLKViewController!) {
         effect?.update(GlobalSimTime, timestep: Float(controller.timeSinceLastUpdate))
     }
-    
-    // TODO: Snapshot and reload view (the backing store gets cleared)
-//    func glkViewController(controller: GLKViewController!, willPause pause: Bool) {
-//        spriteRenderingView.snapshot
-//    }
 }
 
 extension ParticleSimViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -138,9 +109,9 @@ extension ParticleSimViewController: SPTAuthViewDelegate {
 extension ParticleSimViewController: SPTAudioStreamingPlaybackDelegate {
     func audioStreaming(audioStreaming: SPTAudioStreamingController!, didChangePlaybackStatus isPlaying: Bool) {
         if isPlaying {
-            effect = BaseMusicEffect<AnySimulationState>(spriteRenderingView: spriteRenderingView)
-            effect!.fillRect(spriteRenderingView.frame)
-            effect!.spectrumArrays = spotifyManager.spectrumArrays
+//            effect = PulseEffect<AnySimulationState>(spriteRenderingView: spriteRenderingView)
+//            effect!.fillRect(spriteRenderingView.frame)
+//            effect!.spectrumArrays = spotifyManager.spectrumArrays
 
             spotifyButton.setTitle("Stop", forState: UIControlState.Normal)
         }

@@ -1,10 +1,12 @@
 //
-//  ParameterTypes.swift
-//  SwiftDataStructures
+//  SimulationTypes.swift
+//  Music Paint
 //
 //  Created by Anna Dickinson on 5/26/15.
 //  Copyright (c) 2015 Wacky Banana Software. All rights reserved.
 //
+
+// Map abstract simulation types to concrete implementation types.
 
 import Foundation
 import GLKit
@@ -25,6 +27,7 @@ struct Rectangle {
 }
 
 // "Constructors" for bridged, immutable GLK types
+
 extension Vector {
     static func new(x: GLfloat, _ y: GLfloat) -> Vector {
         return GLKVector2Make(x, y)
@@ -38,6 +41,7 @@ extension Color {
 }
 
 // Map operators to GLK functions
+
 func *(lhs: Vector, rhs: Scalar) -> Vector {
     return GLKVector2MultiplyScalar(lhs, rhs)
 }
@@ -46,22 +50,24 @@ func +(lhs: Vector, rhs: Vector) -> Vector {
     return GLKVector2Add(lhs, rhs)
 }
 
+// Other operators
+
 func +(lhs: Vector, rhs: Scalar) -> Vector {
     let x = lhs.x + rhs
     let y = lhs.y + rhs
     return Vector.new(x, y)
 }
 
+// Conform Time to Equable protocol
+extension Time: Equatable { }
+
 func <(lhs: Time, rhs: Time) -> Bool {
     return lhs < rhs
 }
 
 
-extension Time: Equatable {
-    
-}
-    
-// Map sim types to CG types
+// Map sim types to UIKit types
+
 extension Vector {
     static func new(x: CGFloat, y: CGFloat) -> Vector {
         return GLKVector2Make(GLfloat(x), GLfloat(y))
@@ -88,7 +94,6 @@ extension Rectangle {
     }
 }
 
-// UIKit convenience methods
 extension UIColor {
     var simColor: Color {
         var r, g, b, a: CGFloat
@@ -99,5 +104,5 @@ extension UIColor {
 }
 
 // Constants
-let VectorZero = Vector.new(GLfloat(0.0), GLfloat(0.0))
 
+let VectorZero = Vector.new(GLfloat(0.0), GLfloat(0.0))

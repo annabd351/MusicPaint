@@ -19,12 +19,11 @@
 		83F2B87A1B2D0B9100610216 /* MusicPaintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8791B2D0B9100610216 /* MusicPaintTests.swift */; };
 		83F2B8871B2D0C2400610216 /* SpotifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8841B2D0C2400610216 /* SpotifyManager.swift */; };
 		83F2B8881B2D0C2400610216 /* CoreAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8861B2D0C2400610216 /* CoreAudioController.m */; };
-		83F2B88C1B2D0C2F00610216 /* BaseMusicEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88A1B2D0C2F00610216 /* BaseMusicEffect.swift */; };
+		83F2B88C1B2D0C2F00610216 /* PulseEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88A1B2D0C2F00610216 /* PulseEffect.swift */; };
 		83F2B88E1B2D0C3600610216 /* ParticleSimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */; };
 		83F2B8961B2D0C3F00610216 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88F1B2D0C3F00610216 /* Particle.swift */; };
 		83F2B8971B2D0C3F00610216 /* Emitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8901B2D0C3F00610216 /* Emitter.swift */; };
-		83F2B8981B2D0C3F00610216 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8911B2D0C3F00610216 /* Effect.swift */; };
-		83F2B8991B2D0C3F00610216 /* ParameterTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8921B2D0C3F00610216 /* ParameterTypes.swift */; };
+		83F2B8991B2D0C3F00610216 /* SimulationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8921B2D0C3F00610216 /* SimulationTypes.swift */; };
 		83F2B89A1B2D0C3F00610216 /* Randomization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8931B2D0C3F00610216 /* Randomization.swift */; };
 		83F2B89C1B2D0C3F00610216 /* SimulationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8951B2D0C3F00610216 /* SimulationEntity.swift */; };
 		83F2B8A91B2D0C4A00610216 /* SpriteRenderingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B89F1B2D0C4A00610216 /* SpriteRenderingView.m */; };
@@ -75,14 +74,12 @@
 		83F2B8841B2D0C2400610216 /* SpotifyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyManager.swift; sourceTree = "<group>"; };
 		83F2B8851B2D0C2400610216 /* CoreAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreAudioController.h; sourceTree = "<group>"; };
 		83F2B8861B2D0C2400610216 /* CoreAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreAudioController.m; sourceTree = "<group>"; };
-		83F2B88A1B2D0C2F00610216 /* BaseMusicEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMusicEffect.swift; sourceTree = "<group>"; };
+		83F2B88A1B2D0C2F00610216 /* PulseEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulseEffect.swift; sourceTree = "<group>"; };
 		83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticleSimViewController.swift; sourceTree = "<group>"; };
 		83F2B88F1B2D0C3F00610216 /* Particle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		83F2B8901B2D0C3F00610216 /* Emitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emitter.swift; sourceTree = "<group>"; };
-		83F2B8911B2D0C3F00610216 /* Effect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
-		83F2B8921B2D0C3F00610216 /* ParameterTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterTypes.swift; sourceTree = "<group>"; };
+		83F2B8921B2D0C3F00610216 /* SimulationTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulationTypes.swift; sourceTree = "<group>"; };
 		83F2B8931B2D0C3F00610216 /* Randomization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Randomization.swift; sourceTree = "<group>"; };
-		83F2B8941B2D0C3F00610216 /* Advectors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Advectors.swift; sourceTree = "<group>"; };
 		83F2B8951B2D0C3F00610216 /* SimulationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulationEntity.swift; sourceTree = "<group>"; };
 		83F2B89E1B2D0C4A00610216 /* SpriteRenderingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteRenderingView.h; sourceTree = "<group>"; };
 		83F2B89F1B2D0C4A00610216 /* SpriteRenderingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteRenderingView.m; sourceTree = "<group>"; };
@@ -130,12 +127,12 @@
 			children = (
 				83F2B89E1B2D0C4A00610216 /* SpriteRenderingView.h */,
 				83F2B89F1B2D0C4A00610216 /* SpriteRenderingView.m */,
-				83F2B8A01B2D0C4A00610216 /* Sprite.vsh */,
-				83F2B8A11B2D0C4A00610216 /* Sprite.fsh */,
 				83F2B8A21B2D0C4A00610216 /* SpriteBuffer.h */,
 				83F2B8A31B2D0C4A00610216 /* SpriteBuffer.m */,
 				83BA58571B325F0B00AAA26B /* ShaderProcessor.h */,
 				83F2B8A51B2D0C4A00610216 /* ShaderProcessor.m */,
+				83F2B8A01B2D0C4A00610216 /* Sprite.vsh */,
+				83F2B8A11B2D0C4A00610216 /* Sprite.fsh */,
 			);
 			name = Rendering;
 			sourceTree = "<group>";
@@ -145,10 +142,8 @@
 			children = (
 				83F2B88F1B2D0C3F00610216 /* Particle.swift */,
 				83F2B8901B2D0C3F00610216 /* Emitter.swift */,
-				83F2B8911B2D0C3F00610216 /* Effect.swift */,
-				83F2B8921B2D0C3F00610216 /* ParameterTypes.swift */,
+				83F2B8921B2D0C3F00610216 /* SimulationTypes.swift */,
 				83F2B8931B2D0C3F00610216 /* Randomization.swift */,
-				83F2B8941B2D0C3F00610216 /* Advectors.swift */,
 				83F2B8951B2D0C3F00610216 /* SimulationEntity.swift */,
 			);
 			name = Simulation;
@@ -157,7 +152,7 @@
 		83BA58521B31083F00AAA26B /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				83F2B88A1B2D0C2F00610216 /* BaseMusicEffect.swift */,
+				83F2B88A1B2D0C2F00610216 /* PulseEffect.swift */,
 			);
 			name = Effects;
 			sourceTree = "<group>";
@@ -340,16 +335,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83F2B8981B2D0C3F00610216 /* Effect.swift in Sources */,
 				83F2B89C1B2D0C3F00610216 /* SimulationEntity.swift in Sources */,
 				83F2B89A1B2D0C3F00610216 /* Randomization.swift in Sources */,
 				83F2B8871B2D0C2400610216 /* SpotifyManager.swift in Sources */,
 				83F2B8661B2D0B9100610216 /* ViewController.swift in Sources */,
 				83F2B8971B2D0C3F00610216 /* Emitter.swift in Sources */,
 				83F2B8641B2D0B9100610216 /* AppDelegate.swift in Sources */,
-				83F2B88C1B2D0C2F00610216 /* BaseMusicEffect.swift in Sources */,
+				83F2B88C1B2D0C2F00610216 /* PulseEffect.swift in Sources */,
 				83F2B8A91B2D0C4A00610216 /* SpriteRenderingView.m in Sources */,
-				83F2B8991B2D0C3F00610216 /* ParameterTypes.swift in Sources */,
+				83F2B8991B2D0C3F00610216 /* SimulationTypes.swift in Sources */,
 				83F2B8AC1B2D0C4A00610216 /* SpriteBuffer.m in Sources */,
 				83F2B8961B2D0C3F00610216 /* Particle.swift in Sources */,
 				83BA58581B325F5500AAA26B /* ShaderProcessor.m in Sources */,
