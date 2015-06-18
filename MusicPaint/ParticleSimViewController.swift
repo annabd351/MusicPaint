@@ -72,7 +72,7 @@ class ParticleSimViewController: GLKViewController {
         spotifyManager = SpotifyManager(errorHandler: handleSpotifyError)
         spotifyManager.playbackDelegate = self
         
-        spriteRenderingView.clearFramebufferBeforeDrawing = true
+//        spriteRenderingView.clearFramebufferBeforeDrawing = true
     }
     
     override func viewDidAppear(animated: Bool) {

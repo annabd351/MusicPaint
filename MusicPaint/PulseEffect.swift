@@ -12,17 +12,15 @@ import UIKit
 
 // Settings for this effect
 final class PulseEffectState: SimulationStateType {
-    var maxParticleEmissionRate: Scalar = 1000.0
+    var maxParticleEmissionRate: Scalar = 1000
+    var emissionRateScale: Scalar = 10
     
     var baseForceFrequency: Scalar = 60.0
-    var baseForceMagnitudeScale: Scalar = 3.0
+    var baseForceMagnitudeScale: Scalar = 100
     
-    var spectrumDrivenForceMagnitudeScale: Scalar = 0.1
     convenience init(original: PulseEffectState) {
         self.init()
-        self.maxParticleEmissionRate = original.maxParticleEmissionRate
-        self.baseForceFrequency = original.baseForceFrequency
-        self.baseForceMagnitudeScale = original.baseForceMagnitudeScale
+        // TODO: Copy
     }
     
     // Unused
@@ -32,52 +30,22 @@ final class PulseEffectState: SimulationStateType {
     var velocity: Vector = VectorZero
 }
 
-class PulseEffect<S: SimulationStateType>: SimulationEntity<PulseEffectState, Emitter<EmitterState>> {
-    let spriteBuffer: SpriteBuffer
-    let bounds: CGRect
-    let spectrumArrays: SpectrumArrays
-
-    func start() {
-        emitter.currentState.rate = 0.0
-    }
+// The function which creates each particle
+private func createParticle(sprite: UnsafeMutablePointer<Sprite>, position: Position) -> Particle<ParticleState> {
+    var initialParticleState = ParticleState(sprite: sprite)
     
-    func stop() {
-        emitter.currentState.rate = 0.0
-    }
-
-//    private var running = false
-//
-//    override func update(currentTime: Time, timestep: Time) {
-//        if running {
-//            super.update(currentTime, timestep: timestep)
-//        }
-//    }
-
-    // This effect contains one emitter
-    private let emitter: PulsingAreaEmitter<EmitterState>
-
-    init(initialState: PulseEffectState, spriteBuffer: SpriteBuffer, bounds: CGRect, spectrumArrays: SpectrumArrays) {
-
-        self.bounds = bounds
-        self.spriteBuffer = spriteBuffer
-        self.spectrumArrays = spectrumArrays
-        self.emitter = PulsingAreaEmitter<EmitterState>(bounds: Rectangle(cgRect: bounds), spriteBuffer: spriteBuffer, currentTime: GlobalSimTime)
-
-        super.init(initialState: initialState, currentTime: GlobalSimTime)
-
-        createdEntities += [emitter]
-        
-        // Function used to update the emitter
-        addCreatedEntityUpdateFunction(varyEmissionRate)
-        
-        // Function the emitter uses to update its particles
-        emitter.addCreatedEntityUpdateFunction(fade)
-    }
+    initialParticleState.position = position
+    initialParticleState.velocity = VectorZero.randomizedValueByOffset(-1.0)
+    initialParticleState.scale = Scalar(12.0).randomizedValueByProportion(1.0)
+    initialParticleState.lifespan = Scalar(10.0).randomizedValueByProportion(0.5)
+    initialParticleState.color = Color.new(Scalar(1.0), Scalar(1.0), Scalar(1.0), Scalar(0.75).randomizedValueByProportion(0.5))
+    
+    return Particle(initialState: initialParticleState, currentTime: GlobalSimTime)
 }
 
 // Specific type of emitter this effect uses
 private class PulsingAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> {
-
+    
     // Emit particles continuously
     private override func relativeAge(currentTime: Time) -> Time {
         return 0
@@ -108,28 +76,48 @@ private class PulsingAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> 
             scale: Scalar(0.0),
             lifespan: Scalar(0.0),
             velocity: VectorZero,
-
+            
             // These are applicable
             rate: Scalar(0.0),
             spriteBuffer: spriteBuffer
         )
         
-        // The function which will update our Particles
-        let particleGenerator: Emitter.ParticleGeneratorFunction = {
-            (sprite, position) in
-            
-            var initialParticleState = ParticleState(sprite: sprite)
-            
-            initialParticleState.position = position
-            initialParticleState.velocity = VectorZero.randomizedValueByOffset(-1.0)
-            initialParticleState.scale = Scalar(20.0).randomizedValueByProportion(1.0)
-            initialParticleState.lifespan = Scalar(5.0).randomizedValueByProportion(0.5)
-            initialParticleState.color = Color.new(Scalar(1.0), Scalar(1.0), Scalar(1.0), Scalar(0.75).randomizedValueByProportion(0.5))
-            
-            return Particle(initialState: initialParticleState, currentTime: GlobalSimTime)
-        }
+        super.init(initialState: initialState, particleGenerator: createParticle, currentTime: currentTime)
+    }
+}
 
-        super.init(initialState: initialState, particleGenerator: particleGenerator, currentTime: currentTime)
+class PulseEffect<S: SimulationStateType>: SimulationEntity<PulseEffectState, Emitter<EmitterState>> {
+    let spriteBuffer: SpriteBuffer
+    let bounds: CGRect
+    let spectrumArrays: SpectrumArrays
+
+    func start() {
+        emitter.currentState.rate = 0.0
+    }
+    
+    func stop() {
+        emitter.currentState.rate = 0.0
+    }
+
+    // This effect contains one emitter
+    private let emitter: PulsingAreaEmitter<EmitterState>
+
+    init(initialState: PulseEffectState, spriteBuffer: SpriteBuffer, bounds: CGRect, spectrumArrays: SpectrumArrays) {
+
+        self.bounds = bounds
+        self.spriteBuffer = spriteBuffer
+        self.spectrumArrays = spectrumArrays
+        self.emitter = PulsingAreaEmitter<EmitterState>(bounds: Rectangle(cgRect: bounds), spriteBuffer: spriteBuffer, currentTime: GlobalSimTime)
+
+        super.init(initialState: initialState, currentTime: GlobalSimTime)
+
+        createdEntities += [emitter]
+        
+        // Function used to update the emitter
+        addCreatedEntityUpdateFunction(varyEmissionRate)
+        
+        // Function the emitter uses to update its particles
+        emitter.addCreatedEntityUpdateFunction(fade)
     }
 }
 
@@ -140,7 +128,7 @@ extension PulseEffect {
         let g = particle.currentState.color.g
         let b = particle.currentState.color.b
         
-        let newColor = Color.new(r, g, b, 1.0 - particle.normalizedAge(currentTime))
+        let newColor = Color.new(r, g, b, (1.0 - particle.normalizedAge(currentTime)) * particle.initialState.color.a)
         
         particle.currentState.color = newColor
     }
@@ -152,6 +140,7 @@ extension PulseEffect {
     }
     
     func varyEmissionRate(emitter: Emitter<EmitterState>, currentTime: Time, timestep: Time) -> () {
-        emitter.currentState.rate = min(spectrumArrays.maxMagnitude, currentState.maxParticleEmissionRate)
+        let emissionRate = spectrumArrays.maxMagnitude * currentState.emissionRateScale
+        emitter.currentState.rate = min(emissionRate, currentState.maxParticleEmissionRate)
     }
 }
