@@ -1,25 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4LC-vm-HAt">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <scene sceneID="lBI-uz-cn5">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4LC-vm-HAt" customClass="ViewController" customModule="MusicPaint" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="Ubc-up-Usn"/>
+                        <viewControllerLayoutGuide type="bottom" id="IvF-JL-NDA"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="P3O-Jf-LNl" customClass="SpriteRenderingView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTb-dQ-oYo">
+                                <rect key="frame" x="522" y="32" width="30" height="30"/>
+                                <state key="normal" title="Play"/>
+                                <connections>
+                                    <action selector="playButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="kZQ-Cb-k6j"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOl-G2-peI">
+                                <rect key="frame" x="279" y="32" width="43" height="30"/>
+                                <state key="normal" title="Image">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="imageButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="4Es-4z-D8e"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Lt-Q6-get">
+                                <rect key="frame" x="32" y="32" width="37" height="30"/>
+                                <state key="normal" title="Clear">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="VQv-Fg-cBh"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="gOl-G2-peI" firstAttribute="centerY" secondItem="OTb-dQ-oYo" secondAttribute="centerY" id="3XJ-qx-ri0"/>
+                            <constraint firstAttribute="centerX" secondItem="gOl-G2-peI" secondAttribute="centerX" id="QgX-XU-nml"/>
+                            <constraint firstItem="1Lt-Q6-get" firstAttribute="leading" secondItem="P3O-Jf-LNl" secondAttribute="leading" constant="32" id="WN9-1m-y8K"/>
+                            <constraint firstItem="1Lt-Q6-get" firstAttribute="centerY" secondItem="gOl-G2-peI" secondAttribute="centerY" id="aN1-3W-syL"/>
+                            <constraint firstItem="OTb-dQ-oYo" firstAttribute="top" secondItem="P3O-Jf-LNl" secondAttribute="top" constant="32" id="eUG-lI-C21"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="OTb-dQ-oYo" secondAttribute="trailing" constant="32" id="pby-U4-ufq"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="playButton" destination="OTb-dQ-oYo" id="PIp-4s-pdl"/>
+                        <outlet property="spriteRenderingView" destination="P3O-Jf-LNl" id="JRy-6C-GlF"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GuL-Xt-G1M" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Cdn-8G-rwu"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="jR5-NE-j6P"/>
             </objects>
+            <point key="canvasLocation" x="-17" y="-229"/>
         </scene>
     </scenes>
 </document>
