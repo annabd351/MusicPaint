@@ -8,9 +8,8 @@
 // Derived from https://github.com/iKenndac/Viva/
 
 #import "CoreAudioController.h"
-#import <Accelerate/Accelerate.h>
 
-// TODO: Can all data be double?  Currently, it's cast back and forth to Float32
+static UInt32 const MaxInputAudioFrames = 1024;
 
 // Function called when an audio sample is received
 static OSStatus EQRenderCallback(void *inRefCon,
@@ -54,7 +53,7 @@ static OSStatus EQRenderCallback(void *inRefCon,
         [rightCircularBuffer clear];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            [controller processAudioFromLeftBuffer:left rightBuffer:right];
+            [controller processAudioFromLeftBuffer:left rightBuffer:right frameCount:MaxInputAudioFrames];
             free(left); left = NULL;
             free(right); right = NULL;
         });
@@ -69,9 +68,9 @@ static OSStatus EQRenderCallback(void *inRefCon,
     AudioUnit eqUnit;
     
     double *_leftInputRealBuffer;
-    double *_leftInputImageBuffer;
+    double *_leftInputImagBuffer;
     double *_rightInputRealBuffer;
-    double *_rightInputImageBuffer;
+    double *_rightInputImagBuffer;
     vDSP_Length _fftSetupForSampleCount;
     FFTSetupD _fft_weights;
 }
@@ -80,15 +79,17 @@ static NSUInteger const fftMagnitudeExponent = 9;
 
 - (instancetype)init {
     if (self  = [super init]) {
-        _leftSampleBuffer = [[SPTCircularBuffer alloc] initWithMaximumLength:BufferSamples * sizeof(Float32)];
-        _rightSampleBuffer = [[SPTCircularBuffer alloc] initWithMaximumLength:BufferSamples * sizeof(Float32)];
+        _leftSampleBuffer = [[SPTCircularBuffer alloc] initWithMaximumLength:MaxInputAudioFrames * sizeof(Float32)];
+        _rightSampleBuffer = [[SPTCircularBuffer alloc] initWithMaximumLength:MaxInputAudioFrames * sizeof(Float32)];
         
         _fft_weights = vDSP_create_fftsetupD(fftMagnitudeExponent, kFFTRadix2);
         
-        _spectrumData.samples = BufferSamples;
+        _spectrumData.points = SpectrumPoints;
         _spectrumData.leftPtr = _spectrumData.left;
         _spectrumData.rightPtr = _spectrumData.right;
         _spectrumData.maxMagnitudePtr = &_spectrumData.maxMagnitude;
+        _spectrumData.avgMagnitudePtr = &_spectrumData.avgMagnitude;
+        _spectrumData.maxIndexPtr = &_spectrumData.maxIndex;
         _spectrumData.timestampPtr = &_spectrumData.timestamp;
     }
     return self;
@@ -98,39 +99,36 @@ static NSUInteger const fftMagnitudeExponent = 9;
     vDSP_destroy_fftsetupD(_fft_weights);
 }
 
-- (void)processAudioFromLeftBuffer:(Float32 *)left rightBuffer:(Float32 *)right {
+- (void)processAudioFromLeftBuffer:(Float32 *)left rightBuffer:(Float32 *)right frameCount:(UInt32)frameCount {
     // Perform FFT
     [self performEightBitFFTWithWaveformsLeft:left
                                         right:right
-                                   frameCount:512
+                                   frameCount:frameCount
                                    leftResult:_spectrumData.left
                                   rightResult:_spectrumData.right];
     
-    Float32 leftAbs, rightAbs;
-    Float32 maxMagnitude = 0.0f;
-    int highestSampleIndex = 0;
+    double maxMagnitudeL, maxMagnitudeR;
+    vDSP_Length maxIndexL, maxIndexR;
     
-    for (int i = 0; i < _spectrumData.samples; i++) {
-        leftAbs = fabsf(_spectrumData.left[i]);
-        rightAbs = fabsf(_spectrumData.right[i]);
-        
-        maxMagnitude = MAX(maxMagnitude, leftAbs);
-        maxMagnitude = MAX(maxMagnitude, rightAbs);
+    vDSP_maxmgviD(_spectrumData.left, 1, &maxMagnitudeL, &maxIndexL, SpectrumPoints);
+    vDSP_maxmgviD(_spectrumData.right, 1, &maxMagnitudeR, &maxIndexR, SpectrumPoints);
+    
+    double avgMagnitudeL, avgMagnitudeR;
+    
+    vDSP_meanvD(_spectrumData.left, 1, &avgMagnitudeL, SpectrumPoints);
+    vDSP_meanvD(_spectrumData.right, 1, &avgMagnitudeR, SpectrumPoints);
 
-        if (leftAbs > 1000.0f || rightAbs > 1000.0f) {
-            highestSampleIndex = i;
-        }
-    }
-
-    _spectrumData.maxMagnitude = maxMagnitude;
+    _spectrumData.maxMagnitude = fmax(maxMagnitudeL, maxMagnitudeR);
+    _spectrumData.maxIndex = MAX(maxIndexL, maxIndexR);
+    _spectrumData.avgMagnitude = fmax(avgMagnitudeL, avgMagnitudeR);
     _spectrumData.timestamp = CACurrentMediaTime();
 }
 
 -(void)performEightBitFFTWithWaveformsLeft:(Float32 *)leftFrames
                                      right:(Float32 *)rightFrames
                                 frameCount:(vDSP_Length)frameCount
-                                leftResult:(Float32 *)leftDestination
-                               rightResult:(Float32 *)rightDestination {
+                                leftResult:(double *)leftDestination
+                               rightResult:(double *)rightDestination {
     
     if (leftDestination == NULL || rightDestination == NULL || leftFrames == NULL || rightFrames == NULL || frameCount == 0)
         return;
@@ -139,27 +137,27 @@ static NSUInteger const fftMagnitudeExponent = 9;
         /* Allocate memory to store split-complex input and output data */
         
         if (_leftInputRealBuffer != NULL) free(_leftInputRealBuffer);
-        if (_leftInputImageBuffer != NULL) free(_leftInputImageBuffer);
+        if (_leftInputImagBuffer != NULL) free(_leftInputImagBuffer);
         
         _leftInputRealBuffer = (double *)malloc(frameCount * sizeof(double));
-        _leftInputImageBuffer = (double *)malloc(frameCount * sizeof(double));
+        _leftInputImagBuffer = (double *)malloc(frameCount * sizeof(double));
         
         if (_rightInputRealBuffer != NULL) free(_rightInputRealBuffer);
-        if (_rightInputImageBuffer != NULL) free(_rightInputImageBuffer);
+        if (_rightInputImagBuffer != NULL) free(_rightInputImagBuffer);
         
         _rightInputRealBuffer = (double *)malloc(frameCount * sizeof(double));
-        _rightInputImageBuffer = (double *)malloc(frameCount * sizeof(double));
+        _rightInputImagBuffer = (double *)malloc(frameCount * sizeof(double));
         
         _fftSetupForSampleCount = frameCount;
     }
     
     memset(_leftInputRealBuffer, 0, frameCount * sizeof(double));
     memset(_rightInputRealBuffer, 0, frameCount * sizeof(double));
-    memset(_leftInputImageBuffer, 0, frameCount * sizeof(double));
-    memset(_rightInputImageBuffer, 0, frameCount * sizeof(double));
+    memset(_leftInputImagBuffer, 0, frameCount * sizeof(double));
+    memset(_rightInputImagBuffer, 0, frameCount * sizeof(double));
     
-    DSPDoubleSplitComplex leftInput = {_leftInputRealBuffer, _leftInputImageBuffer};
-    DSPDoubleSplitComplex rightInput = {_rightInputRealBuffer, _rightInputImageBuffer};
+    DSPDoubleSplitComplex leftInput = {_leftInputRealBuffer, _leftInputImagBuffer};
+    DSPDoubleSplitComplex rightInput = {_rightInputRealBuffer, _rightInputImagBuffer};
     
     // Left
     for (int i = 0; i < frameCount; i++) {
@@ -167,27 +165,15 @@ static NSUInteger const fftMagnitudeExponent = 9;
         rightInput.realp[i] = (double)rightFrames[i];
     }
     
-    double *leftChannelMagnitudes = (double *)malloc(exp2(fftMagnitudeExponent) * sizeof(double));
-    double *rightChannelMagnitudes = (double *)malloc(exp2(fftMagnitudeExponent) * sizeof(double));
-    
     /* 1D in-place complex FFT */
     vDSP_fft_zipD(_fft_weights, &leftInput, 1, fftMagnitudeExponent, FFT_FORWARD);
     // Get magnitudes
-    vDSP_zvmagsD(&leftInput, 1, leftChannelMagnitudes, 1, exp2(fftMagnitudeExponent));
+    vDSP_zvmagsD(&leftInput, 1, leftDestination, 1, exp2(fftMagnitudeExponent));
     
     /* 1D in-place complex FFT */
     vDSP_fft_zipD(_fft_weights, &rightInput, 1, fftMagnitudeExponent, FFT_FORWARD);
     // Get magnitudes
-    vDSP_zvmagsD(&rightInput, 1, rightChannelMagnitudes, 1, exp2(fftMagnitudeExponent));
-    
-    // TODO: Figure out double to Float32 casting so this can be done with memcpy
-    for (int i = 0; i < frameCount; i++) {
-        leftDestination[i] = (Float32)leftChannelMagnitudes[i];
-        rightDestination[i] = (Float32)leftChannelMagnitudes[i];
-    }
-    
-    free(leftChannelMagnitudes);
-    free(rightChannelMagnitudes);
+    vDSP_zvmagsD(&rightInput, 1, rightDestination, 1, exp2(fftMagnitudeExponent));
 }
 
 -(BOOL)connectOutputBus:(UInt32)sourceOutputBusNumber ofNode:(AUNode)sourceNode toInputBus:(UInt32)destinationInputBusNumber ofNode:(AUNode)destinationNode inGraph:(AUGraph)graph error:(NSError **)error {
@@ -265,8 +251,8 @@ static NSUInteger const fftMagnitudeExponent = 9;
 - (void)resetSpectrumData {
     // Clear out stale spectrum data
     _spectrumData.maxMagnitude = 0.0f;
-    memset(_spectrumData.left, 0, BufferSamples * sizeof(Float32));
-    memset(_spectrumData.right, 0, BufferSamples * sizeof(Float32));
+    vDSP_vclrD(_spectrumData.left, 1, SpectrumPoints);
+    vDSP_vclrD(_spectrumData.right, 1, SpectrumPoints);
 }
 
 @end

@@ -121,16 +121,9 @@ class SimulationEntity<S: SimulationStateType, E: SimulationEntityType>: Simulat
 }
 
 // System time
-
-// TODO: The underlying OpenGLES system doesn't support Double values.  But, we need to pass
-// time values into the shaders (for aging).  As a stop-gap, truncate the global time
-// to a window to deal with the difference in precision.  Ideally, the simulation
-// should be using Double values throughout.
-
-let GlobalTimePeriodicity = 60.0 * 10
-
 var GlobalSimTime: Time {
-    return Time(CACurrentMediaTime() % GlobalTimePeriodicity)
+    // TODO: This truncates the time value.  Might need to retain precision.
+    return Time(CACurrentMediaTime())
 }
 
 // "Base" generics

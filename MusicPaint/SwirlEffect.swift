@@ -1,29 +1,34 @@
 //
-//  PulseEffect.swift
+//  SwirlEffect.swift
 //  Music Paint
 //
 //  Created by Anna Dickinson on 6/13/15.
 //  Copyright (c) 2015 Wacky Banana Software. All rights reserved.
 //
 
-// Emit particles to the beat!
+// Emit swirly particles which dance to the beat!
 
 import UIKit
 
 // Settings for this effect
-final class PulseEffectState: SimulationStateType {
-    var maxParticleEmissionRate: Scalar = 1000
-    var emissionRateScale: Scalar = 5
+final class SwirlEffectState: SimulationStateType {
+    // (determined via trial and error)
+
+    var maxEmissionRate: Scalar = 1000
     
-    var baseForceFrequency: Scalar = 60
-    var baseForceMagnitudeScale: Scalar = 3
+    var swirlForceFrequency: Scalar = 12
+    var swirlForceScale: Scalar = 2
+
+    var eraseColor: Color = UIColor.whiteColor().simColor
+    var eraseProbability = 0.01
     
-    convenience init(original: PulseEffectState) {
+    convenience init(original: SwirlEffectState) {
         self.init()
-        self.maxParticleEmissionRate = original.maxParticleEmissionRate
-        self.emissionRateScale = original.emissionRateScale
-        self.baseForceFrequency = original.baseForceFrequency
-        self.baseForceMagnitudeScale = original.baseForceMagnitudeScale
+        self.maxEmissionRate = original.maxEmissionRate
+        self.swirlForceFrequency = original.swirlForceFrequency
+        self.swirlForceScale = original.swirlForceScale
+        self.eraseColor = original.eraseColor
+        self.eraseProbability = original.eraseProbability
     }
     
     // Unused
@@ -39,15 +44,15 @@ private func createParticle(sprite: UnsafeMutablePointer<Sprite>, position: Posi
     
     initialParticleState.position = position
     initialParticleState.velocity = VectorZero.randomizedValueByOffset(-1.0)
-    initialParticleState.scale = Scalar(12.0).randomizedValueByProportion(1.0)
-    initialParticleState.lifespan = Scalar(10.0).randomizedValueByProportion(0.5)
-    initialParticleState.color = Color.new(Scalar(1.0), Scalar(1.0), Scalar(1.0), Scalar(0.25).randomizedValueByProportion(0.5))
+    initialParticleState.scale = Scalar(15.0).randomizedValueByProportion(1.0)
+    initialParticleState.lifespan = Scalar(15.0).randomizedValueByProportion(0.5)
+    initialParticleState.color = Color.new(Scalar(1.0), Scalar(1.0), Scalar(1.0), Scalar(0.15).randomizedValueByProportion(0.5))
     
     return Particle(initialState: initialParticleState, currentTime: GlobalSimTime)
 }
 
 // Specific type of emitter this effect uses
-private class PulsingAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> {
+private class AreaEmitter<S: SimulationStateType>: Emitter<EmitterState> {
     
     // Emit particles continuously
     private override func relativeAge(currentTime: Time) -> Time {
@@ -89,28 +94,28 @@ private class PulsingAreaEmitter<S: SimulationStateType>: Emitter<EmitterState> 
     }
 }
 
-class PulseEffect<S: SimulationStateType>: SimulationEntity<PulseEffectState, Emitter<EmitterState>> {
+class SwirlEffect<S: SimulationStateType>: SimulationEntity<SwirlEffectState, Emitter<EmitterState>> {
     let spriteBuffer: SpriteBuffer
     let bounds: CGRect
     let spectrumArrays: SpectrumArrays
 
     func start() {
-        currentState.maxParticleEmissionRate = initialState.maxParticleEmissionRate
+        currentState.maxEmissionRate = initialState.maxEmissionRate
     }
     
     func stop() {
-        currentState.maxParticleEmissionRate = 0
+        currentState.maxEmissionRate = 0
     }
 
     // This effect contains one emitter
-    private let emitter: PulsingAreaEmitter<EmitterState>
+    private let emitter: AreaEmitter<EmitterState>
 
-    init(initialState: PulseEffectState, spriteBuffer: SpriteBuffer, bounds: CGRect, spectrumArrays: SpectrumArrays) {
+    init(initialState: SwirlEffectState, spriteBuffer: SpriteBuffer, bounds: CGRect, spectrumArrays: SpectrumArrays) {
 
         self.bounds = bounds
         self.spriteBuffer = spriteBuffer
         self.spectrumArrays = spectrumArrays
-        self.emitter = PulsingAreaEmitter<EmitterState>(bounds: Rectangle(cgRect: bounds), spriteBuffer: spriteBuffer, currentTime: GlobalSimTime)
+        self.emitter = AreaEmitter<EmitterState>(bounds: Rectangle(cgRect: bounds), spriteBuffer: spriteBuffer, currentTime: GlobalSimTime)
 
         super.init(initialState: initialState, currentTime: GlobalSimTime)
 
@@ -121,12 +126,14 @@ class PulseEffect<S: SimulationStateType>: SimulationEntity<PulseEffectState, Em
         
         // Functions the emitter uses to update its particles
         emitter.addCreatedEntityUpdateFunction(fade)
-        emitter.addCreatedEntityUpdateFunction(applySinusoidalForce)
+        emitter.addCreatedEntityUpdateFunction(shrink)
+        emitter.addCreatedEntityUpdateFunction(erase)
+        emitter.addCreatedEntityUpdateFunction(applyForce)
     }
 }
 
 // Update functions used by the effect
-extension PulseEffect {
+extension SwirlEffect {
     func fade(particle: Particle<ParticleState>, currentTime: Time, timestep: Time) -> () {
         let r = particle.currentState.color.r
         let g = particle.currentState.color.g
@@ -137,14 +144,28 @@ extension PulseEffect {
         particle.currentState.color = newColor
     }
 
-    func applySinusoidalForce(particle: Particle<ParticleState>, currentTime: Time, timestep: Time) -> () {
-        let perParticleFrequency = currentState.baseForceFrequency + Scalar(particle.initialState.ID) % currentState.baseForceFrequency
-        let forceVector = Vector.new(sin(currentTime * perParticleFrequency ), cos(currentTime * perParticleFrequency))
-        particle.currentState.velocity = particle.currentState.velocity + forceVector * currentState.baseForceMagnitudeScale.randomizedValueByProportion(1.0)
+    func applyForce(particle: Particle<ParticleState>, currentTime: Time, timestep: Time) -> () {
+        let rotatingForce = Vector.new(sin(currentState.swirlForceFrequency * currentTime), cos(currentState.swirlForceFrequency * currentTime))
+        
+        let forceVector = rotatingForce
+        particle.currentState.velocity = particle.currentState.velocity + forceVector * Scalar(log(spectrumArrays.maxMagnitude)) * currentState.swirlForceScale
     }
     
+    func erase(particle: Particle<ParticleState>, currentTime: Time, timestep: Time) -> () {
+        let randomVal = Double(random())/Double(RAND_MAX)
+        if randomVal < currentState.eraseProbability {
+            particle.currentState.color = currentState.eraseColor
+            particle.currentState.scale = particle.initialState.scale.randomizedValueByProportion(0.5)
+        }
+    }
+    
+    func shrink(particle: Particle<ParticleState>, currentTime: Time, timestep: Time) -> () {
+        particle.currentState.scale = particle.initialState.scale * (1.0 - particle.normalizedAge(currentTime))
+    }
+
     func varyEmissionRate(emitter: Emitter<EmitterState>, currentTime: Time, timestep: Time) -> () {
-        let emissionRate = spectrumArrays.maxMagnitude * currentState.emissionRateScale
-        emitter.currentState.rate = min(emissionRate, currentState.maxParticleEmissionRate)
+        let emissionRate = Scalar(pow(spectrumArrays.avgMagnitude, 3))
+        emitter.currentState.rate = max(min(emissionRate, currentState.maxEmissionRate), 0)
     }
 }
+

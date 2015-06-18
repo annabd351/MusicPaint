@@ -18,13 +18,18 @@ private let DiskCacheSize: UInt = 1024 * 1024 * 64
 
 // Swift-bridged version of the data from CoreAudioController
 struct SpectrumArrays {
-    var left: UnsafeMutableBufferPointer<Float32>
-    var right: UnsafeMutableBufferPointer<Float32>
-    var maxMagnitudePtr: UnsafeMutablePointer<Float32>
-    var timestampPtr: UnsafeMutablePointer<NSTimeInterval>
-    
-    var maxMagnitude: Float32 { return maxMagnitudePtr.memory }
+    var left: UnsafeMutableBufferPointer<Double>
+    var right: UnsafeMutableBufferPointer<Double>
+
+    var maxMagnitude: Double { return maxMagnitudePtr.memory }
+    var avgMagnitude: Double { return avgMagnitudePtr.memory }
+    var maxIndex: vDSP_Length { return maxIndexPtr.memory }
     var timestamp: NSTimeInterval { return timestampPtr.memory }
+
+    var maxMagnitudePtr: UnsafeMutablePointer<Double>
+    var timestampPtr: UnsafeMutablePointer<NSTimeInterval>
+    var avgMagnitudePtr: UnsafeMutablePointer<Double>
+    var maxIndexPtr: UnsafeMutablePointer<vDSP_Length>
 }
 
 class SpotifyManager: NSObject {
@@ -123,10 +128,10 @@ class SpotifyManager: NSObject {
     init(errorHandler: (NSError) -> ()) {
         self.errorHandler = errorHandler
 
-        let leftSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.leftPtr, count: coreAudioController.spectrumData.samples)
-        let rightSpectrumArray = UnsafeMutableBufferPointer<Float32>(start: coreAudioController.spectrumData.rightPtr, count: coreAudioController.spectrumData.samples)
+        let leftSpectrumArray = UnsafeMutableBufferPointer<Double>(start: coreAudioController.spectrumData.leftPtr, count: coreAudioController.spectrumData.points)
+        let rightSpectrumArray = UnsafeMutableBufferPointer<Double>(start: coreAudioController.spectrumData.rightPtr, count: coreAudioController.spectrumData.points)
 
-        spectrumArrays = SpectrumArrays(left: leftSpectrumArray, right: rightSpectrumArray, maxMagnitudePtr: coreAudioController.spectrumData.maxMagnitudePtr, timestampPtr: coreAudioController.spectrumData.timestampPtr)
+        spectrumArrays = SpectrumArrays(left: leftSpectrumArray, right: rightSpectrumArray, maxMagnitudePtr: coreAudioController.spectrumData.maxMagnitudePtr, timestampPtr: coreAudioController.spectrumData.timestampPtr, avgMagnitudePtr: coreAudioController.spectrumData.avgMagnitudePtr, maxIndexPtr: coreAudioController.spectrumData.maxIndexPtr)
     }
 
 
@@ -191,5 +196,11 @@ class SpotifyManager: NSObject {
                 self.errorHandler(error!)
             }
         }
+    }
+}
+
+extension SpectrumArrays: DebugPrintable {
+    var debugDescription: String {
+        return "[\(timestamp)] max: \(maxMagnitude) avg: \(avgMagnitude) index: \(maxIndex)"
     }
 }

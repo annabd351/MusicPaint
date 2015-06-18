@@ -12,15 +12,13 @@
 		83AE89091B2D0F8000B76DBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83AE89081B2D0F8000B76DBE /* SystemConfiguration.framework */; };
 		83BA58581B325F5500AAA26B /* ShaderProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8A51B2D0C4A00610216 /* ShaderProcessor.m */; };
 		83F2B8641B2D0B9100610216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8631B2D0B9100610216 /* AppDelegate.swift */; };
-		83F2B8661B2D0B9100610216 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8651B2D0B9100610216 /* ViewController.swift */; };
 		83F2B8691B2D0B9100610216 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83F2B8671B2D0B9100610216 /* Main.storyboard */; };
 		83F2B86B1B2D0B9100610216 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83F2B86A1B2D0B9100610216 /* Images.xcassets */; };
 		83F2B86E1B2D0B9100610216 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83F2B86C1B2D0B9100610216 /* LaunchScreen.xib */; };
-		83F2B87A1B2D0B9100610216 /* MusicPaintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8791B2D0B9100610216 /* MusicPaintTests.swift */; };
 		83F2B8871B2D0C2400610216 /* SpotifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8841B2D0C2400610216 /* SpotifyManager.swift */; };
 		83F2B8881B2D0C2400610216 /* CoreAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8861B2D0C2400610216 /* CoreAudioController.m */; };
-		83F2B88C1B2D0C2F00610216 /* PulseEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88A1B2D0C2F00610216 /* PulseEffect.swift */; };
-		83F2B88E1B2D0C3600610216 /* ParticleSimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */; };
+		83F2B88C1B2D0C2F00610216 /* SwirlEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88A1B2D0C2F00610216 /* SwirlEffect.swift */; };
+		83F2B88E1B2D0C3600610216 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88D1B2D0C3600610216 /* ViewController.swift */; };
 		83F2B8961B2D0C3F00610216 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88F1B2D0C3F00610216 /* Particle.swift */; };
 		83F2B8971B2D0C3F00610216 /* Emitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8901B2D0C3F00610216 /* Emitter.swift */; };
 		83F2B8991B2D0C3F00610216 /* SimulationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8921B2D0C3F00610216 /* SimulationTypes.swift */; };
@@ -31,16 +29,6 @@
 		83F2B8AB1B2D0C4A00610216 /* Sprite.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 83F2B8A11B2D0C4A00610216 /* Sprite.fsh */; };
 		83F2B8AC1B2D0C4A00610216 /* SpriteBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8A31B2D0C4A00610216 /* SpriteBuffer.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		83F2B8741B2D0B9100610216 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83F2B8561B2D0B9100610216 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 83F2B85D1B2D0B9100610216;
-			remoteInfo = MusicPaint;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		83AE89011B2D0E3100B76DBE /* Embed Frameworks */ = {
@@ -63,19 +51,15 @@
 		83F2B85E1B2D0B9100610216 /* MusicPaint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicPaint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83F2B8621B2D0B9100610216 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83F2B8631B2D0B9100610216 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		83F2B8651B2D0B9100610216 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		83F2B8681B2D0B9100610216 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		83F2B86A1B2D0B9100610216 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		83F2B86D1B2D0B9100610216 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		83F2B8731B2D0B9100610216 /* MusicPaintTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicPaintTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		83F2B8781B2D0B9100610216 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		83F2B8791B2D0B9100610216 /* MusicPaintTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPaintTests.swift; sourceTree = "<group>"; };
 		83F2B8831B2D0C2400610216 /* MusicPaint-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicPaint-Bridging-Header.h"; sourceTree = "<group>"; };
 		83F2B8841B2D0C2400610216 /* SpotifyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyManager.swift; sourceTree = "<group>"; };
 		83F2B8851B2D0C2400610216 /* CoreAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreAudioController.h; sourceTree = "<group>"; };
 		83F2B8861B2D0C2400610216 /* CoreAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreAudioController.m; sourceTree = "<group>"; };
-		83F2B88A1B2D0C2F00610216 /* PulseEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulseEffect.swift; sourceTree = "<group>"; };
-		83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticleSimViewController.swift; sourceTree = "<group>"; };
+		83F2B88A1B2D0C2F00610216 /* SwirlEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwirlEffect.swift; sourceTree = "<group>"; };
+		83F2B88D1B2D0C3600610216 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		83F2B88F1B2D0C3F00610216 /* Particle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		83F2B8901B2D0C3F00610216 /* Emitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emitter.swift; sourceTree = "<group>"; };
 		83F2B8921B2D0C3F00610216 /* SimulationTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulationTypes.swift; sourceTree = "<group>"; };
@@ -99,13 +83,6 @@
 				83AE89091B2D0F8000B76DBE /* SystemConfiguration.framework in Frameworks */,
 				836DA2D21B306A1A009D9828 /* Spotify.framework in Frameworks */,
 				83AE89071B2D0F6D00B76DBE /* AVFoundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		83F2B8701B2D0B9100610216 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,11 +117,11 @@
 		83BA58511B31083300AAA26B /* Simulation */ = {
 			isa = PBXGroup;
 			children = (
-				83F2B88F1B2D0C3F00610216 /* Particle.swift */,
-				83F2B8901B2D0C3F00610216 /* Emitter.swift */,
-				83F2B8921B2D0C3F00610216 /* SimulationTypes.swift */,
-				83F2B8931B2D0C3F00610216 /* Randomization.swift */,
 				83F2B8951B2D0C3F00610216 /* SimulationEntity.swift */,
+				83F2B8921B2D0C3F00610216 /* SimulationTypes.swift */,
+				83F2B8901B2D0C3F00610216 /* Emitter.swift */,
+				83F2B88F1B2D0C3F00610216 /* Particle.swift */,
+				83F2B8931B2D0C3F00610216 /* Randomization.swift */,
 			);
 			name = Simulation;
 			sourceTree = "<group>";
@@ -152,7 +129,7 @@
 		83BA58521B31083F00AAA26B /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				83F2B88A1B2D0C2F00610216 /* PulseEffect.swift */,
+				83F2B88A1B2D0C2F00610216 /* SwirlEffect.swift */,
 			);
 			name = Effects;
 			sourceTree = "<group>";
@@ -171,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				83F2B8601B2D0B9100610216 /* MusicPaint */,
-				83F2B8761B2D0B9100610216 /* MusicPaintTests */,
 				83BA584F1B31080B00AAA26B /* Frameworks */,
 				83F2B85F1B2D0B9100610216 /* Products */,
 			);
@@ -181,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				83F2B85E1B2D0B9100610216 /* MusicPaint.app */,
-				83F2B8731B2D0B9100610216 /* MusicPaintTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -193,15 +168,12 @@
 				83BA58511B31083300AAA26B /* Simulation */,
 				83BA58521B31083F00AAA26B /* Effects */,
 				83BA58531B31084D00AAA26B /* Audio */,
-				83F2B8AF1B2D0C6000610216 /* DebugMacro.h */,
-				83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */,
+				83F2B88D1B2D0C3600610216 /* ViewController.swift */,
 				83F2B8631B2D0B9100610216 /* AppDelegate.swift */,
-				83F2B8651B2D0B9100610216 /* ViewController.swift */,
 				83F2B8671B2D0B9100610216 /* Main.storyboard */,
 				83F2B86A1B2D0B9100610216 /* Images.xcassets */,
 				83F2B86C1B2D0B9100610216 /* LaunchScreen.xib */,
 				83F2B8611B2D0B9100610216 /* Supporting Files */,
-				83F2B8831B2D0C2400610216 /* MusicPaint-Bridging-Header.h */,
 			);
 			path = MusicPaint;
 			sourceTree = "<group>";
@@ -209,24 +181,9 @@
 		83F2B8611B2D0B9100610216 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83F2B8831B2D0C2400610216 /* MusicPaint-Bridging-Header.h */,
+				83F2B8AF1B2D0C6000610216 /* DebugMacro.h */,
 				83F2B8621B2D0B9100610216 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		83F2B8761B2D0B9100610216 /* MusicPaintTests */ = {
-			isa = PBXGroup;
-			children = (
-				83F2B8791B2D0B9100610216 /* MusicPaintTests.swift */,
-				83F2B8771B2D0B9100610216 /* Supporting Files */,
-			);
-			path = MusicPaintTests;
-			sourceTree = "<group>";
-		};
-		83F2B8771B2D0B9100610216 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				83F2B8781B2D0B9100610216 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -252,24 +209,6 @@
 			productReference = 83F2B85E1B2D0B9100610216 /* MusicPaint.app */;
 			productType = "com.apple.product-type.application";
 		};
-		83F2B8721B2D0B9100610216 /* MusicPaintTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 83F2B8801B2D0B9100610216 /* Build configuration list for PBXNativeTarget "MusicPaintTests" */;
-			buildPhases = (
-				83F2B86F1B2D0B9100610216 /* Sources */,
-				83F2B8701B2D0B9100610216 /* Frameworks */,
-				83F2B8711B2D0B9100610216 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				83F2B8751B2D0B9100610216 /* PBXTargetDependency */,
-			);
-			name = MusicPaintTests;
-			productName = MusicPaintTests;
-			productReference = 83F2B8731B2D0B9100610216 /* MusicPaintTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -282,10 +221,6 @@
 					83F2B85D1B2D0B9100610216 = {
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = YQ27GR84SD;
-					};
-					83F2B8721B2D0B9100610216 = {
-						CreatedOnToolsVersion = 6.3.2;
-						TestTargetID = 83F2B85D1B2D0B9100610216;
 					};
 				};
 			};
@@ -303,7 +238,6 @@
 			projectRoot = "";
 			targets = (
 				83F2B85D1B2D0B9100610216 /* MusicPaint */,
-				83F2B8721B2D0B9100610216 /* MusicPaintTests */,
 			);
 		};
 /* End PBXProject section */
@@ -321,13 +255,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		83F2B8711B2D0B9100610216 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -338,37 +265,20 @@
 				83F2B89C1B2D0C3F00610216 /* SimulationEntity.swift in Sources */,
 				83F2B89A1B2D0C3F00610216 /* Randomization.swift in Sources */,
 				83F2B8871B2D0C2400610216 /* SpotifyManager.swift in Sources */,
-				83F2B8661B2D0B9100610216 /* ViewController.swift in Sources */,
 				83F2B8971B2D0C3F00610216 /* Emitter.swift in Sources */,
 				83F2B8641B2D0B9100610216 /* AppDelegate.swift in Sources */,
-				83F2B88C1B2D0C2F00610216 /* PulseEffect.swift in Sources */,
+				83F2B88C1B2D0C2F00610216 /* SwirlEffect.swift in Sources */,
 				83F2B8A91B2D0C4A00610216 /* SpriteRenderingView.m in Sources */,
 				83F2B8991B2D0C3F00610216 /* SimulationTypes.swift in Sources */,
 				83F2B8AC1B2D0C4A00610216 /* SpriteBuffer.m in Sources */,
 				83F2B8961B2D0C3F00610216 /* Particle.swift in Sources */,
 				83BA58581B325F5500AAA26B /* ShaderProcessor.m in Sources */,
-				83F2B88E1B2D0C3600610216 /* ParticleSimViewController.swift in Sources */,
+				83F2B88E1B2D0C3600610216 /* ViewController.swift in Sources */,
 				83F2B8881B2D0C2400610216 /* CoreAudioController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		83F2B86F1B2D0B9100610216 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				83F2B87A1B2D0B9100610216 /* MusicPaintTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		83F2B8751B2D0B9100610216 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 83F2B85D1B2D0B9100610216 /* MusicPaint */;
-			targetProxy = 83F2B8741B2D0B9100610216 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		83F2B8671B2D0B9100610216 /* Main.storyboard */ = {
@@ -514,40 +424,6 @@
 			};
 			name = Release;
 		};
-		83F2B8811B2D0B9100610216 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = MusicPaintTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MusicPaint.app/MusicPaint";
-			};
-			name = Debug;
-		};
-		83F2B8821B2D0B9100610216 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = MusicPaintTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MusicPaint.app/MusicPaint";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -565,15 +441,6 @@
 			buildConfigurations = (
 				83F2B87E1B2D0B9100610216 /* Debug */,
 				83F2B87F1B2D0B9100610216 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		83F2B8801B2D0B9100610216 /* Build configuration list for PBXNativeTarget "MusicPaintTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				83F2B8811B2D0B9100610216 /* Debug */,
-				83F2B8821B2D0B9100610216 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

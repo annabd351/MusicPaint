@@ -5,10 +5,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Particle Sim View Controller-->
+        <!--View Controller-->
         <scene sceneID="lBI-uz-cn5">
             <objects>
-                <viewController id="4LC-vm-HAt" customClass="ParticleSimViewController" customModule="MusicPaint" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4LC-vm-HAt" customClass="ViewController" customModule="MusicPaint" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ubc-up-Usn"/>
                         <viewControllerLayoutGuide type="bottom" id="IvF-JL-NDA"/>
@@ -55,7 +55,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="playButton" destination="OTb-dQ-oYo" id="SSL-bV-qwW"/>
+                        <outlet property="playButton" destination="OTb-dQ-oYo" id="PIp-4s-pdl"/>
                         <outlet property="spriteRenderingView" destination="P3O-Jf-LNl" id="JRy-6C-GlF"/>
                     </connections>
                 </viewController>

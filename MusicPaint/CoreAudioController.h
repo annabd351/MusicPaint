@@ -9,21 +9,28 @@
 // Streaming audio processing.
 
 #import <Spotify/Spotify.h>
+#import <Accelerate/Accelerate.h>
 
-static const NSInteger BufferSamples = 512;
+static const NSInteger SpectrumPoints = 512;
 
 typedef struct _SpectrumData {
-    NSInteger samples;
-    Float32 left[BufferSamples];
-    Float32 right[BufferSamples];
-    Float32 maxMagnitude;
+    NSInteger points;
+
+    double left[SpectrumPoints];
+    double right[SpectrumPoints];
+    double maxMagnitude;
+    double avgMagnitude;
+    vDSP_Length maxIndex;
     NSTimeInterval timestamp;
     
     // For Swift bridging (to prevent copies by value)
-    Float32 *leftPtr;
-    Float32 *rightPtr;
-    Float32 *maxMagnitudePtr;
+    double *leftPtr;
+    double *rightPtr;
+    double *maxMagnitudePtr;
+    double *avgMagnitudePtr;
+    vDSP_Length *maxIndexPtr;
     NSTimeInterval *timestampPtr;
+    
 } SpectrumData;
 
 @interface CoreAudioController : SPTCoreAudioController
@@ -36,7 +43,7 @@ typedef struct _SpectrumData {
 @property (nonatomic) SPTCircularBuffer *rightSampleBuffer;
 
 // Process most recent frame (used internally)
-- (void)processAudioFromLeftBuffer:(Float32 *)left rightBuffer:(Float32 *)right;
+- (void)processAudioFromLeftBuffer:(Float32 *)left rightBuffer:(Float32 *)right frameCount:(UInt32)frameCount;
 
 // Zero-out everything in spectrumData
 - (void)resetSpectrumData;
