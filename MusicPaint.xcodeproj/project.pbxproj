@@ -19,7 +19,6 @@
 		83F2B87A1B2D0B9100610216 /* MusicPaintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8791B2D0B9100610216 /* MusicPaintTests.swift */; };
 		83F2B8871B2D0C2400610216 /* SpotifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8841B2D0C2400610216 /* SpotifyManager.swift */; };
 		83F2B8881B2D0C2400610216 /* CoreAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8861B2D0C2400610216 /* CoreAudioController.m */; };
-		83F2B88B1B2D0C2F00610216 /* WiggleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B8891B2D0C2F00610216 /* WiggleEffect.swift */; };
 		83F2B88C1B2D0C2F00610216 /* BaseMusicEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88A1B2D0C2F00610216 /* BaseMusicEffect.swift */; };
 		83F2B88E1B2D0C3600610216 /* ParticleSimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */; };
 		83F2B8961B2D0C3F00610216 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F2B88F1B2D0C3F00610216 /* Particle.swift */; };
@@ -79,7 +78,6 @@
 		83F2B8841B2D0C2400610216 /* SpotifyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyManager.swift; sourceTree = "<group>"; };
 		83F2B8851B2D0C2400610216 /* CoreAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreAudioController.h; sourceTree = "<group>"; };
 		83F2B8861B2D0C2400610216 /* CoreAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreAudioController.m; sourceTree = "<group>"; };
-		83F2B8891B2D0C2F00610216 /* WiggleEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WiggleEffect.swift; sourceTree = "<group>"; };
 		83F2B88A1B2D0C2F00610216 /* BaseMusicEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMusicEffect.swift; sourceTree = "<group>"; };
 		83F2B88D1B2D0C3600610216 /* ParticleSimViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticleSimViewController.swift; sourceTree = "<group>"; };
 		83F2B88F1B2D0C3F00610216 /* Particle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 		83BA58521B31083F00AAA26B /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				83F2B8891B2D0C2F00610216 /* WiggleEffect.swift */,
 				83F2B88A1B2D0C2F00610216 /* BaseMusicEffect.swift */,
 			);
 			name = Effects;
@@ -368,7 +365,6 @@
 				83F2B8A91B2D0C4A00610216 /* SpriteRenderingView.m in Sources */,
 				83F2B8991B2D0C3F00610216 /* ParameterTypes.swift in Sources */,
 				83F2B8AC1B2D0C4A00610216 /* SpriteBuffer.m in Sources */,
-				83F2B88B1B2D0C2F00610216 /* WiggleEffect.swift in Sources */,
 				83F2B8961B2D0C3F00610216 /* Particle.swift in Sources */,
 				83F2B8AE1B2D0C4A00610216 /* GLShader.m in Sources */,
 				83F2B88E1B2D0C3600610216 /* ParticleSimViewController.swift in Sources */,

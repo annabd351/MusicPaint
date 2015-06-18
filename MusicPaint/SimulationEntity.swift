@@ -89,7 +89,7 @@ class SimulationEntity<S: SimulationStateType, E: SimulationEntityType>: Simulat
 // System time
 
 // Truncate times to this window -- we have limited precision
-let GlobalTimePrecision = 60.0 * 2
+let GlobalTimePrecision = 60.0 * 10
 
 var GlobalSimTime: Time {
     return Time(CACurrentMediaTime() % GlobalTimePrecision)
