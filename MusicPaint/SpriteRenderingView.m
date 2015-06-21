@@ -75,6 +75,7 @@
 
 - (void)clear {
     _needsClearing = true;
+    [self.spriteBuffer clear];
     [self setNeedsDisplay];
 }
 

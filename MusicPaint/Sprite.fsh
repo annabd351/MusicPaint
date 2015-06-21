@@ -17,9 +17,10 @@ static const char* SpriteFS = STRINGIFY
  uniform lowp vec2 windowSize;
  
  void main(void) {
-     if (fragmentAge > fragmentLifespan) {
+     if (fragmentLifespan == 0.0 || fragmentAge > fragmentLifespan) {
          discard;
      }
+     
      else {
          highp vec4 textureColor = texture2D(texture, gl_PointCoord);
          gl_FragColor = textureColor * fragmentColor;

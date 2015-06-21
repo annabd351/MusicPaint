@@ -13,7 +13,12 @@ import GLKit
 class Particle<S: SimulationStateType>: SimulationEntity<ParticleState, AnySimulationEntity>  {
     override init(initialState: ParticleState, currentTime: Time) {
         super.init(initialState: initialState, currentTime: currentTime)
-    }    
+    }
+    
+    // This causes the sprite to stop rendering
+    deinit {
+        currentState.lifespan = 0
+    }
 }
 
 struct ParticleState: SimulationStateType {

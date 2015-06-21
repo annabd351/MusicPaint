@@ -74,6 +74,9 @@ class SimulationEntity<S: SimulationStateType, E: SimulationEntityType>: Simulat
     private let birthTime: Time
     
     var createdEntities: [E] = []
+    var createdEntitiesCount: Int {
+        return createdEntities.count
+    }
     
     typealias UpdateFunctionType = (E, Time, Time) -> ()
     private var createdEntityUpdateFunctions: [UpdateFunctionType] = [SimulationEntity<S, E>.callCreatedEntityUpdate]

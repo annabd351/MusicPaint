@@ -107,6 +107,10 @@ class SwirlEffect<S: SimulationStateType>: SimulationEntity<SwirlEffectState, Em
         currentState.maxEmissionRate = 0
     }
 
+    func reset() {
+        emitter.createdEntities = []
+    }
+    
     // This effect contains one emitter
     private let emitter: AreaEmitter<EmitterState>
 
@@ -129,6 +133,10 @@ class SwirlEffect<S: SimulationStateType>: SimulationEntity<SwirlEffectState, Em
         emitter.addCreatedEntityUpdateFunction(shrink)
         emitter.addCreatedEntityUpdateFunction(erase)
         emitter.addCreatedEntityUpdateFunction(applyForce)
+    }
+    
+    override var createdEntitiesCount: Int {
+        return emitter.createdEntitiesCount + 1
     }
 }
 

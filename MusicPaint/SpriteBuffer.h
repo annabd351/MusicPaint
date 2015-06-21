@@ -26,6 +26,9 @@ typedef struct _Sprite {
 // Load the sprite shaders
 - (void)loadShaders;
 
+// Clear the buffer
+- (void)clear;
+
 // References to OpenGL objects
 
 // Program Handle

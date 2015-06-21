@@ -23,6 +23,9 @@ class ViewController: GLKViewController {
     
     @IBAction func clearButtonPressed(sender: AnyObject) {
         spriteRenderingView.clear()
+        effect?.reset()
+        let count = effect?.createdEntitiesCount ?? 0
+        counterLabel.text = "\(count)"
     }
     
     @IBOutlet weak var playButton: UIButton!
@@ -69,11 +72,18 @@ class ViewController: GLKViewController {
         effect = SwirlEffect(initialState: SwirlEffectState(), spriteBuffer: spriteRenderingView.spriteBuffer, bounds: view.frame, spectrumArrays: spotifyManager.spectrumArrays)
         effect?.currentState.eraseColor = view.backgroundColor!.simColor
     }
+    
+    @IBOutlet weak var counterLabel: UILabel!
+
 }
 
 extension ViewController: GLKViewControllerDelegate {
     func glkViewControllerUpdate(controller: GLKViewController!) {
-        effect?.update(GlobalSimTime, timestep: Float(controller.timeSinceLastUpdate))
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+            effect?.update(GlobalSimTime, timestep: Float(controller.timeSinceLastUpdate))
+        }
+        let count = effect?.createdEntitiesCount ?? 0
+        counterLabel.text = "\(count)"
     }
 }
 

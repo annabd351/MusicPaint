@@ -42,12 +42,20 @@
                                     <action selector="clearButtonPressed:" destination="4LC-vm-HAt" eventType="touchUpInside" id="VQv-Fg-cBh"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUh-Us-Rlt" userLabel="Count">
+                                <rect key="frame" x="16" y="563" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="gOl-G2-peI" firstAttribute="centerY" secondItem="OTb-dQ-oYo" secondAttribute="centerY" id="3XJ-qx-ri0"/>
+                            <constraint firstAttribute="bottom" secondItem="fUh-Us-Rlt" secondAttribute="bottom" constant="16" id="FSL-21-F72"/>
                             <constraint firstAttribute="centerX" secondItem="gOl-G2-peI" secondAttribute="centerX" id="QgX-XU-nml"/>
+                            <constraint firstItem="fUh-Us-Rlt" firstAttribute="leading" secondItem="P3O-Jf-LNl" secondAttribute="leading" constant="16" id="SIo-RV-XWt"/>
                             <constraint firstItem="1Lt-Q6-get" firstAttribute="leading" secondItem="P3O-Jf-LNl" secondAttribute="leading" constant="32" id="WN9-1m-y8K"/>
                             <constraint firstItem="1Lt-Q6-get" firstAttribute="centerY" secondItem="gOl-G2-peI" secondAttribute="centerY" id="aN1-3W-syL"/>
                             <constraint firstItem="OTb-dQ-oYo" firstAttribute="top" secondItem="P3O-Jf-LNl" secondAttribute="top" constant="32" id="eUG-lI-C21"/>
@@ -55,6 +63,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="counterLabel" destination="fUh-Us-Rlt" id="LRP-QY-73F"/>
                         <outlet property="playButton" destination="OTb-dQ-oYo" id="PIp-4s-pdl"/>
                         <outlet property="spriteRenderingView" destination="P3O-Jf-LNl" id="JRy-6C-GlF"/>
                     </connections>

@@ -54,4 +54,10 @@
     return _allocatedSprites;
 }
 
+- (void)clear {
+    for (int i = 0; i < SpriteBufferCapacity; i++) {
+        _allocatedSprites[i].lifespan = 0.0f;
+    }
+}
+
 @end
